@@ -1,12 +1,14 @@
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import App from './App'
+import { Navigate, Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import Layout from './Layout/Layout'
 import Home from './components/Home'
 
 const Approutes = () => {
     const router = createBrowserRouter (
         createRoutesFromElements(
-            <Route path='/' element={<App/>}>
+            <Route path='/' element={<Layout/>}>
                 <Route index element={<Home/>}/>
+                <Route path='/user-profile' element={<div>User profile page</div>}/>
+                <Route path='*' element={<Navigate to={'/'}/>}/>
             </Route>
         )
     )
