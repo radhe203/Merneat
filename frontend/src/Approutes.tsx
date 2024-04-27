@@ -16,7 +16,7 @@ const Approutes = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/user-profile" element={<div>User profile page</div>} />
+        <Route path="/profile" element={<div>User profile page</div>} />
         <Route element={<ProtectedRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

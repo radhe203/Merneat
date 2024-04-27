@@ -70,3 +70,21 @@ export async function test(req: Request, res: Response, next: NextFunction) {
     }
     res.status(200).json({message:"token tested"})
 }
+
+export async function logOut(req: Request, res: Response, next: NextFunction) {
+
+    try {
+        res.cookie('merneat_token', "", {
+            httpOnly: true,
+            secure: false,
+            maxAge: 0,
+            expires:new Date(0)
+        })
+
+        res.status(200).json({message:"logout success"})
+        
+    } catch (error) {
+        next(error)
+    }
+
+}
