@@ -52,8 +52,12 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             secure: false,
             maxAge: 1000 * 60 * 60 * 24 * 7
         })
-
-        res.status(200).json({ message: "Log in successfull", userId: user._id })
+        
+        res.status(200).json({ message: "Log in successfull", user:{
+            userId:user._id,
+            email:user.email,
+            username:user.username
+        } })
     } catch (error) {
         next(error)
     }

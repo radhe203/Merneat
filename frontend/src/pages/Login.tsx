@@ -1,3 +1,9 @@
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "@/redux/slices/userSlice";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -7,15 +13,19 @@ type loginData = {
 };
 
 const Login = () => {
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const { error, loading, } = useAppSelector(
+    (state) => state.User
+  );
+  const navigate = useNavigate();
   const [user, setUser] = useState<loginData>({
     email: "",
     password: "",
   });
-
   async function LoginHandle(e: any) {
     e.preventDefault();
     try {
+      dispatch(signInStart());
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -24,14 +34,19 @@ const Login = () => {
         body: JSON.stringify(user),
       });
 
-      const data =await  res.json()
+      const data = await res.json();
 
-      console.log(data)
-      if(res.ok){
-        navigate('/')
+      if (!res.ok) {
+        dispatch(signInFailure(data.message));
       }
-    } catch (error) {
-        console.log(error)
+
+      if (res.ok) {
+        dispatch(signInSuccess(data.user));
+        navigate("/");
+      }
+    } catch (error: any) {
+      dispatch(signInFailure(error.message));
+      console.log(error);
     }
   }
 
@@ -55,8 +70,11 @@ const Login = () => {
           placeholder="Enter your email here"
           className=" outline-none min-w-80 md:min-w-96 border-2 border-gray-500 rounded-sm p-3"
         />
-        <button className=" w-full bg-orange-500 text-white text-xl font-semibold py-3 ">
-          Log in
+        <button
+          disabled={loading}
+          className=" disabled:opacity-85 w-full bg-orange-500 text-white text-xl font-semibold py-3 "
+        >
+           {loading ? "Loading..." :  "Log in"}
         </button>
       </form>
       <div className=" mt-3">
@@ -67,6 +85,7 @@ const Login = () => {
           </Link>
         </h3>
       </div>
+      {error && <p className=" text-sm text-red-500 mt-2">{error}</p>}
     </div>
   );
 };
