@@ -42,6 +42,7 @@ const Login = () => {
 
       if (res.ok) {
         dispatch(signInSuccess(data.user));
+        localStorage.setItem('user',JSON.stringify(data.user))
         navigate("/");
       }
     } catch (error: any) {
@@ -51,7 +52,7 @@ const Login = () => {
   }
 
   return (
-    <div className=" flex flex-col bg-white shadow-2xl rounded-md  py-8 px-4 md:py-12 md:px-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+    <div className=" max-w-[430px] flex flex-col bg-white shadow-2xl rounded-md  py-8 px-4 md:py-12 md:px-6 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
       <h1 className=" text-3xl font-semibold border-b-4 border-orange-500 w-fit">
         Login
       </h1>
@@ -67,7 +68,7 @@ const Login = () => {
           type="password"
           value={user?.password}
           onChange={(e) => setUser({ ...user, password: e.target.value })}
-          placeholder="Enter your email here"
+          placeholder="password"
           className=" outline-none min-w-80 md:min-w-96 border-2 border-gray-500 rounded-sm p-3"
         />
         <button

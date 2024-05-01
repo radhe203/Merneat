@@ -9,6 +9,7 @@ import Layout from "./Layout/Layout";
 import Home from "./components/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import RestrictedRoutes from "./RestrictedRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
 
 const Approutes = () => {
@@ -16,10 +17,12 @@ const Approutes = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/profile" element={<div>User profile page</div>} />
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<RestrictedRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+        </Route>
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/profile" element={<div>User profile page</div>} />
         </Route>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>

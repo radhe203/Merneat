@@ -14,7 +14,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
             return next(ErrorHandler(403, "User already exists"))
         }
 
-        const hassedPassword = await bcryptjs.hash(password, 10)
+        const hassedPassword = bcryptjs.hashSync(password, 10)
         await User.create({ username, email, password: hassedPassword, })
 
         // const newUser = new User({
@@ -38,8 +38,11 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         if (!user) {
             return next(ErrorHandler(404, "User not found"))
         }
+        console.log(password)
+        console.log(user.password)
 
-        const isMatch = bcryptjs.compare(user.password, password)
+        const isMatch = bcryptjs.compareSync(password, user.password);
+        console.log(isMatch)
 
         if (!isMatch) {
             return next(ErrorHandler(404, "Wrong Credintials"))
