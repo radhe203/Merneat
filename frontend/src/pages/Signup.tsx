@@ -55,14 +55,14 @@ const Signup = () => {
           type="text"
           value={user?.username}
           onChange={(e) => setUser({ ...user, username: e.target.value })}
-          placeholder="Username"
+          placeholder="Enter your username here"
           className=" text-xloutline-none min-w-80 border-2 border-gray-600 rounded-sm p-3 outline-none"
         />
         <input
           type="email"
           value={user?.email}
           onChange={(e) => setUser({ ...user, email: e.target.value })}
-          placeholder="password"
+          placeholder="Enter your email here"
           className=" text-xloutline-none min-w-80 border-2 border-gray-600 rounded-sm p-3 outline-none"
         />
         <input

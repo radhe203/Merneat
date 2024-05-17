@@ -15,7 +15,6 @@ const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
                 return next(ErrorHandler(401, "Unauthorized"))
             }
             req.body.userId = user.userId
-            console.log(user)
             next()
         })
 

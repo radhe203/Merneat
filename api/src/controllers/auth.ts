@@ -38,11 +38,8 @@ export async function login(req: Request, res: Response, next: NextFunction) {
         if (!user) {
             return next(ErrorHandler(404, "User not found"))
         }
-        console.log(password)
-        console.log(user.password)
 
         const isMatch = bcryptjs.compareSync(password, user.password);
-        console.log(isMatch)
 
         if (!isMatch) {
             return next(ErrorHandler(404, "Wrong Credintials"))

@@ -68,7 +68,7 @@ const Login = () => {
           type="password"
           value={user?.password}
           onChange={(e) => setUser({ ...user, password: e.target.value })}
-          placeholder="password"
+          placeholder="Enter your password here"
           className=" outline-none min-w-80 md:min-w-96 border-2 border-gray-500 rounded-sm p-3"
         />
         <button
