@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import {
+  showHero,
   signInFailure,
   signInStart,
   signInSuccess,
 } from "@/redux/slices/userSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 type loginData = {
@@ -17,6 +18,11 @@ const Login = () => {
   const { error, loading, } = useAppSelector(
     (state) => state.User
   );
+
+  useEffect(()=>{
+dispatch(showHero())
+  },[])
+
   const navigate = useNavigate();
   const [user, setUser] = useState<loginData>({
     email: "",

@@ -3,15 +3,16 @@ import { Outlet } from "react-router-dom";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Footer from "@/components/Footer";
-// type props = {
-//   children: React.ReactNode;
-// }
+import { useAppSelector } from "@/redux/hooks/hooks";
+
 function Layout() {
+  const {hero} = useAppSelector(state => state.User)
+  console.log(hero)
   return (
     <>
     <div className="flex flex-col min-h-screen">
       <Header/>
-      <Hero/>
+    {hero && <Hero/>}
       <div className="container mx-auto flex-1 py-10">
         <Outlet/>
       </div>

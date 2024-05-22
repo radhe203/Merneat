@@ -1,6 +1,13 @@
 import landing from "../assets/landing.png";
 import appDownload from "../assets/appDownload.png";
+import { showHero } from "@/redux/slices/userSlice";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/redux/hooks/hooks";
 const Home = () => {
+  const dispatch = useAppDispatch()
+  useEffect(()=>{
+    dispatch(showHero())
+      },[])
   return (
     <div className=" flex flex-col gap-12">
       <div className=" bg-white shadow-md rounded-lg py-8 flex flex-col gap-5 text-center -mt-16">

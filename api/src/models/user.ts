@@ -11,8 +11,17 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String
+    },
+    addressLine1: {
+        type: String
+    },
+    city: {
+        type: String
+    }, 
+    country: {
+        type: String
     }
-},{timestamps:true})
+}, { timestamps: true })
 
 const User = mongoose.model<userType>('User', userSchema)
 export default User;
