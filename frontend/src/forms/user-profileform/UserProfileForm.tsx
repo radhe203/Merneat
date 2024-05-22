@@ -9,7 +9,7 @@ import LoadingButton from "@/components/LoadingButton"
 import { Button } from "@/components/ui/button"
 const FormSchema = z.object({
     email: z.string().optional(),
-    name: z.string().min(1, "name is required"),
+    username: z.string().optional(),
     addressLine1: z.string().min(1, "Address line 1 is required"),
     city: z.string().min(1, "City is required"),
     country: z.string().min(1, "Country is required"),
@@ -20,8 +20,13 @@ type Props = {
     onSave: (UserProfileData: UserformData) => void
 }
 const UserProfileForm = ({ onSave }: Props) => {
+    const { addressLine1,city,email,username,country} = useAppSelector(state => state.User)
+    console.log(addressLine1,city)
     const form = useForm<UserformData>({
-        resolver: zodResolver(FormSchema)
+        resolver: zodResolver(FormSchema),
+        defaultValues:{
+            username,country,email,addressLine1:addressLine1,city
+        }
     })
     const { loading } = useAppSelector(state => state.User)
    
@@ -42,15 +47,15 @@ const UserProfileForm = ({ onSave }: Props) => {
                     return <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                            <Input {...field} className="bg-white" />
+                            <Input {...field} className="bg-white" type="email" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
                 }} />
 
-                <FormField control={form.control} name="name" render={({ field }) => {
+                <FormField control={form.control} name="username" render={({ field }) => {
                     return <FormItem>
-                        <FormLabel>Name</FormLabel>
+                        <FormLabel>Username</FormLabel>
                         <FormControl>
                             <Input {...field} className="bg-white" />
                         </FormControl>

@@ -52,23 +52,25 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             secure: false,
             maxAge: 1000 * 60 * 60 * 24 * 7
         })
-        
-        res.status(200).json({ message: "Log in successfull", user:{
-            userId:user._id,
-            email:user.email,
-            username:user.username
-        } })
+
+        res.status(200).json({
+            message: "Log in successfull", user: {
+                userId: user._id,
+                email: user.email,
+                username: user.username
+            }
+        })
     } catch (error) {
         next(error)
     }
 }
 
 export async function test(req: Request, res: Response, next: NextFunction) {
-    const {id,userId} = req.body
-    if(userId !== id){
-        return next(ErrorHandler(401,"unauthorised"))
+    const { id, userId } = req.body
+    if (userId !== id) {
+        return next(ErrorHandler(401, "unauthorised"))
     }
-    res.status(200).json({message:"token tested"})
+    res.status(200).json({ message: "token tested" })
 }
 
 export async function logOut(req: Request, res: Response, next: NextFunction) {
@@ -78,11 +80,43 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
             httpOnly: true,
             secure: false,
             maxAge: 0,
-            expires:new Date(0)
+            expires: new Date(0)
         })
 
-        res.status(200).json({message:"logout success"})
-        
+        res.status(200).json({ message: "logout success" })
+
+    } catch (error) {
+        next(error)
+    }
+
+}
+
+export async function updateProfile(req: Request, res: Response, next: NextFunction) {
+
+    const { id, userId, username, email, password, addressLine1, city, country } = req.body
+    if (userId !== id) {
+        return next(ErrorHandler(401, "unauthorised"))
+    }
+
+    try {
+
+
+        const UpdatedProfile = await User.findByIdAndUpdate(id, {
+            $set: {
+                ...(username && { username }),
+                ...(email && { email }),
+                ...(addressLine1 && { addressLine1 }),
+                ...(password && { password }),
+                ...(country && { country }),
+                ...(city && { city })
+            }
+        })
+
+        const user = await User.findById(id).select('-password')
+
+        res.status(200).json(user)
+
+
     } catch (error) {
         next(error)
     }

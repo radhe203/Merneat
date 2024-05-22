@@ -11,6 +11,9 @@ const userSlice = createSlice({
         username: storedUser?.username || null,
         email: storedUser?.email || null,
         userId: storedUser?.userId ||  null,
+        addressLine1:storedUser?.addressLine1 ||  null,
+        city:storedUser?.addressLine1 ||  null,
+        country:storedUser?.country || null,
         error: null,
         loading: false,
         hero:false
@@ -24,6 +27,9 @@ const userSlice = createSlice({
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.userId = action.payload.userId;
+            state.addressLine1=action.payload.addressLine1;
+            state.city=action.payload.city;
+            state.country=action.payload.country;
             state.loading = false;
             state.error = null;
         },
@@ -35,6 +41,9 @@ const userSlice = createSlice({
             state.username = null;
             state.email = null;
             state.userId = null;
+            state.addressLine1=null;
+            state.city=null;
+            state.country=null;
             state.loading = false;
             state.error = null;
             localStorage.removeItem('user')
@@ -53,10 +62,28 @@ const userSlice = createSlice({
         },
         hideHero:(state)=>{
             state.hero=false
-        }
+        },
+        updateStart: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        updateSuccess: (state, action) => {
+            state.username = action.payload.username;
+            state.email = action.payload.email;
+            state.userId = action.payload._id;
+            state.addressLine1=action.payload.addressLine1;
+            state.city=action.payload.city;
+            state.country=action.payload.country;
+            state.loading = false;
+            state.error = null;
+        },
+        updateFailure: (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        },
 
 
     }
 })
-export const { signInStart, signOutFaliure, signInFailure, signInSuccess, signOutsucsess, signUpSuccess,showHero,hideHero } = userSlice.actions
+export const { signInStart, signOutFaliure, signInFailure, signInSuccess, signOutsucsess, signUpSuccess,showHero,hideHero,updateStart,updateSuccess,updateFailure } = userSlice.actions
 export default userSlice.reducer

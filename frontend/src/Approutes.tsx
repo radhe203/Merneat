@@ -11,7 +11,6 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import RestrictedRoutes from "./RestrictedRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
-import UserProfileForm from "./forms/user-profileform/UserProfileForm";
 import ProfilePage from "./pages/ProfilePage";
 
 const Approutes = () => {
