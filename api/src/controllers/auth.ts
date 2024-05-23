@@ -57,7 +57,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             message: "Log in successfull", user: {
                 userId: user._id,
                 email: user.email,
-                username: user.username
+                username: user.username,
+                addressLine1:user.addressLine1,
+                country:user.country,
+                city:user.city
             }
         })
     } catch (error) {
@@ -114,7 +117,7 @@ export async function updateProfile(req: Request, res: Response, next: NextFunct
 
         const user = await User.findById(id).select('-password')
 
-        res.status(200).json(user)
+        res.status(200).json({user,message:"Updated successfully"})
 
 
     } catch (error) {

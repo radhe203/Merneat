@@ -2,6 +2,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { showHero, signInFailure, signInStart, signUpSuccess } from "@/redux/slices/userSlice";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type loginData = {
   username: string;
@@ -36,14 +37,17 @@ const Signup = () => {
       const data = await res.json();
       if (res.ok) {
         dispatch(signUpSuccess())
+        toast.success(data.message)
         navigate("/login");
       }
       if (!res.ok) {
         dispatch(signInFailure(data.message));
+        toast.error(data.message)
       }
 
     } catch (error: any) {
       dispatch(signInFailure(error.message));
+      toast.error(error.message)
     }
   }
 

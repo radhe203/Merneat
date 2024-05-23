@@ -7,6 +7,7 @@ import {
 } from "@/redux/slices/userSlice";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 type loginData = {
   email: string;
@@ -44,16 +45,19 @@ dispatch(showHero())
 
       if (!res.ok) {
         dispatch(signInFailure(data.message));
+        toast.error(data.message)
       }
 
       if (res.ok) {
         dispatch(signInSuccess(data.user));
+        console.log(data.user)
         localStorage.setItem('user',JSON.stringify(data.user))
+        toast.success(data.message)
         navigate("/");
       }
     } catch (error: any) {
       dispatch(signInFailure(error.message));
-      console.log(error);
+      toast.error(error.message)
     }
   }
 

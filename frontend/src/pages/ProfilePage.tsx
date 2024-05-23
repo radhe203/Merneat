@@ -2,14 +2,14 @@ import UserProfileForm, { UserformData } from '@/forms/user-profileform/UserProf
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks'
 import { hideHero, updateFailure, updateStart, updateSuccess } from '@/redux/slices/userSlice'
 import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch()
-    const { userId ,addressLine1,city,email,username,country} = useAppSelector(state => state.User)
+    const { userId } = useAppSelector(state => state.User)
     useEffect(() => {
         dispatch(hideHero())
     }, [])
-    console.log(addressLine1)
     async function onSave(UserProfileData: UserformData) {
         dispatch(updateStart())
         try {
@@ -23,14 +23,21 @@ const ProfilePage = () => {
 
             const data = await res.json()
 
+            const { message, user } = data
+
             if (res.ok) {
-                dispatch(updateSuccess(data))
-                console.log(data)
-                localStorage.setItem('user',JSON.stringify({username:data.username,email:data.email,userId:data._id,addressLine1:data.addressLine1,city:data.city,country:data.country}))
+                dispatch(updateSuccess(user))
+                localStorage.setItem('user', JSON.stringify({ username: user.username, email: user.email, userId: user._id, addressLine1: user.addressLine1, city: user.city, country: user.country }))
+                toast.success(message)
+            }
+            if (!res.ok) {
+                dispatch(updateFailure(message))
+                toast.error(message)
             }
 
-        } catch (error) {
-            dispatch(updateFailure(error))
+        } catch (error:any) {
+            dispatch(updateFailure(error.message))
+            toast.error(error.message)
         }
     }
     return (

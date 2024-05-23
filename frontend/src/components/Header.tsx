@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import "./Header.css";
 import { useDispatch } from "react-redux";
 import { signOutFaliure, signOutsucsess } from "@/redux/slices/userSlice";
+import { toast } from "sonner";
 const Header = () => {
   const { username } = useAppSelector((state) => state.User);
   const navigate = useNavigate();
@@ -19,14 +20,20 @@ const Header = () => {
       if (res.ok) {
         navigate("/");
         dispatch(signOutsucsess());
+        toast.success(data.message)
+
       }
 
       if (!res.ok) {
         dispatch(signOutFaliure(data.message));
+        toast.error(data.message)
+
       }
     } catch (error: any) {
       dispatch(signOutFaliure(error.message));
       console.log(error.message);
+      toast.error(error.message)
+
     }
   }
 

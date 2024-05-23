@@ -13,6 +13,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { useDispatch } from "react-redux";
 import { signOutFaliure, signOutsucsess } from "@/redux/slices/userSlice";
+import { toast } from "sonner";
 
 function MobileNav() {
   const navigate = useNavigate();
@@ -26,14 +27,18 @@ function MobileNav() {
       if (res.ok) {
         navigate("/");
         dispatch(signOutsucsess());
+        toast.success(data.message)
       }
 
       if (!res.ok) {
         dispatch(signOutFaliure(data.message));
+        toast.error(data.message)
+
       }
     } catch (error: any) {
       dispatch(signOutFaliure(error.message));
       console.log(error.message);
+      toast.error(error.message)
     }
   }
 
