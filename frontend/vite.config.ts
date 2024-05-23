@@ -2,6 +2,8 @@ import path from "path"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
+const production = true
+
 export default defineConfig({
   plugins: [react()],
   resolve: {
@@ -12,7 +14,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target: "http://localhost:3000",
+        target: production ? "https://merneat.onrender.com":"http://localhost:3000",
         secure: false,
       }
     }
