@@ -11,13 +11,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server:{
-    proxy:{
-      '/api':{
-        target: "https://merneat.onrender.com",
-        secure: false,
-      }
-    }
-  }
+  // // server:{
+  // //   proxy:{
+  // //     '/api':{
+  // //       target: "https://merneat.netlify.app
+  // //       secure: false,
+  // //     }
+  // //   }
+  // }
 })
-// "http://localhost:3000",
+// "https://merneat.netlify.app

@@ -22,6 +22,7 @@ const Login = () => {
 
   useEffect(()=>{
 dispatch(showHero())
+console.log(import.meta.env.VITE_API)
   },[])
 
   const navigate = useNavigate();
@@ -33,8 +34,10 @@ dispatch(showHero())
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch(`https://merneat.netlify.app
+/api/auth/login`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "Application/json",
         },

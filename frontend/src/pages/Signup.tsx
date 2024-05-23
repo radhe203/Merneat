@@ -26,8 +26,10 @@ const Signup = () => {
     dispatch(signInStart());
     e.preventDefault();
     try {
-      const res = await fetch("/api/auth/signup", {
+      const res = await fetch(`https://merneat.netlify.app
+/api/auth/signup`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "Application/json",
         },
