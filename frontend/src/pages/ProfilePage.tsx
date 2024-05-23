@@ -13,7 +13,7 @@ const ProfilePage = () => {
     async function onSave(UserProfileData: UserformData) {
         dispatch(updateStart())
         try {
-            const res = await fetch(`http://localhost:3000/api/auth/update-profile`, {
+            const res = await fetch(`https://merneat.netlify.app/api/auth/update-profile`, {
                 method: "PUT",
                 credentials:"include",
                 headers: {
