@@ -34,7 +34,7 @@ console.log(import.meta.env.VITE_API)
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch(`https://merneat.netlify.app/api/auth/login`, {
+      const res = await fetch(`https://merneat.onrender.com/api/auth/login`, {
         method: "POST",
         credentials:"include",
         headers: {

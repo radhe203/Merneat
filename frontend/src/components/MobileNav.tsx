@@ -21,7 +21,7 @@ function MobileNav() {
 
   async function logOut() {
     try {
-      const res = await fetch(`https://merneat.netlify.app/api/auth/logout`);
+      const res = await fetch(`https://merneat.onrender.com/api/auth/logout`);
       const data = await res.json();
 
       if (res.ok) {
