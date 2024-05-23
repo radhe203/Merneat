@@ -51,6 +51,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             httpOnly: true,
             secure: process.env.PRODUCTION ? true : false,
             maxAge: 1000 * 60 * 60 * 24 * 7,
+            domain:"https://merneat.netlify.app"
         })
 
         res.status(200).json({
@@ -60,7 +61,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
                 username: user.username,
                 addressLine1:user.addressLine1,
                 country:user.country,
-                city:user.city
+                city:user.city,
             }
         })
     } catch (error) {
@@ -84,6 +85,7 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
             secure: process.env.PRODUCTION ? true : false,
             maxAge: 0,
             expires: new Date(0),
+            domain:"https://merneat.netlify.app"
         })
 
         res.status(200).json({ message: "logout success" })
