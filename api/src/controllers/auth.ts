@@ -49,7 +49,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
         res.cookie('merneat_token', token, {
             httpOnly: true,
-            secure: false,
+            secure: process.env.PRODUCTION ? true : false,
             maxAge: 1000 * 60 * 60 * 24 * 7
         })
 
@@ -80,8 +80,8 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
 
     try {
         res.cookie('merneat_token', "", {
-            httpOnly: true,
-            secure: false,
+            httpOnly: false,
+            secure: process.env.PRODUCTION ? true : false,
             maxAge: 0,
             expires: new Date(0)
         })
