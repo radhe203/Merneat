@@ -14,9 +14,10 @@ export default defineConfig({
   server:{
     proxy:{
       '/api':{
-        target: production ? "https://merneat.onrender.com":"http://localhost:3000",
+        target: "https://merneat.onrender.com",
         secure: false,
       }
     }
   }
 })
+// "http://localhost:3000",

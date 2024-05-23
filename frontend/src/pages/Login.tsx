@@ -58,6 +58,7 @@ dispatch(showHero())
     } catch (error: any) {
       dispatch(signInFailure(error.message));
       toast.error(error.message)
+      console.log(error)
     }
   }
 
