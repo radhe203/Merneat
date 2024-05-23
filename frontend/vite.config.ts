@@ -11,13 +11,4 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // // server:{
-  // //   proxy:{
-  // //     '/api':{
-  // //       target: "https://merneat.netlify.app
-  // //       secure: false,
-  // //     }
-  // //   }
-  // }
 })
-// "https://merneat.netlify.app
