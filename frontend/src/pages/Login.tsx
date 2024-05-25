@@ -1,4 +1,3 @@
-import getCookie from "@/configs/getCooike";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import {
   showHero,
