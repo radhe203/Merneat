@@ -1,3 +1,4 @@
+import getCookie from "@/configs/getCooike";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import {
   showHero,
@@ -8,7 +9,6 @@ import {
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
 type loginData = {
   email: string;
   password: string;
@@ -35,7 +35,6 @@ dispatch(showHero())
       dispatch(signInStart());
       const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: "POST",
-        credentials:"include",
         headers: {
           "Content-Type": "Application/json",
         },
@@ -52,7 +51,6 @@ dispatch(showHero())
       if (res.ok) {
         dispatch(signInSuccess(data.user));
         localStorage.setItem('user',JSON.stringify(data.user))
-        console.log(data.tokenString)
         document.cookie = data.tokenString
         toast.success(data.message)
         navigate("/");

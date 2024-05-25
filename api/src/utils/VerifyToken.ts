@@ -4,7 +4,9 @@ import jwt from "jsonwebtoken";
 
 const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.cookies["merneat_auth_token"]
+        const tokenValue = req.headers.authorization as string
+
+        const token = tokenValue.substring(7 , tokenValue.length)
 
         if (!token) {
             return next(ErrorHandler(401, "Unauthorized"))
@@ -20,7 +22,7 @@ const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
 
        
     } catch (error) {
-        return next(ErrorHandler(401, "Unauthorized"))
+        return next(error)
     }
 
 }

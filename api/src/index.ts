@@ -16,10 +16,7 @@ mongoose.connect(process.env.MONGODB_CONNECTION_URI as string)
 const app = express()
 app.use(express.urlencoded({extended:true}))
 app.use(cors({
-    // origin: process.env.CLIENT_LINK,
-    // origin:'*',
     origin:true,
-    credentials: true
 }))
 
 app.use(cookieParser())

@@ -1,3 +1,4 @@
+import getCookie from '@/configs/getCooike'
 import UserProfileForm, { UserformData } from '@/forms/user-profileform/UserProfileForm'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks'
 import { hideHero, updateFailure, updateStart, updateSuccess } from '@/redux/slices/userSlice'
@@ -6,7 +7,7 @@ import { toast } from 'sonner'
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch()
-    const { userId ,baseUrl} = useAppSelector(state => state.User)
+    const { userId, baseUrl } = useAppSelector(state => state.User)
     useEffect(() => {
         dispatch(hideHero())
     }, [])
@@ -15,9 +16,10 @@ const ProfilePage = () => {
         try {
             const res = await fetch(`${baseUrl}/api/auth/update-profile`, {
                 method: "PUT",
-                credentials:"include",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getCookie('merneat_auth_token')}`
+
                 },
                 body: JSON.stringify({ ...UserProfileData, id: userId })
             })
@@ -36,7 +38,7 @@ const ProfilePage = () => {
                 toast.error(message)
             }
 
-        } catch (error:any) {
+        } catch (error: any) {
             dispatch(updateFailure(error.message))
             toast.error(error.message)
         }
