@@ -20,6 +20,7 @@ const Header = () => {
       if (res.ok) {
         navigate("/");
         dispatch(signOutsucsess());
+        document.cookie = 'merneat_auth_token='
         toast.success(data.message)
 
       }

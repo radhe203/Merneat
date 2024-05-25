@@ -3,7 +3,7 @@ import User from "../models/user"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import ErrorHandler from "../utils/ErrorHandler"
-const production:number | boolean = Number(process.env.PRODUCTION)
+const production: number | boolean = Number(process.env.PRODUCTION)
 export async function signup(req: Request, res: Response, next: NextFunction) {
     try {
         const { username, email, password } = req.body
@@ -48,23 +48,26 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!)
 
-        res.cookie('merneat_token', token, {
-            httpOnly: true,
-            secure: production ? true : false,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
-            ...(production && { domain: process.env.PROD_LINK }),
-        })
+        const tokenString = `merneat_auth_token=${token};secure=${true};max-age=${1000 * 60 * 60 * 24 * 7}`
+
+        // res.cookie('merneat_token', token, {
+        //     httpOnly: true,
+        //     secure: production ? true : false,
+        //     maxAge: 1000 * 60 * 60 * 24 * 7,
+        //     // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
+        //     ...(production && { domain: process.env.PROD_LINK }),
+        // })
 
         res.status(200).json({
             message: "Log in successfull", user: {
                 userId: user._id,
                 email: user.email,
                 username: user.username,
-                addressLine1:user.addressLine1,
-                country:user.country,
-                city:user.city,
-            }
+                addressLine1: user.addressLine1,
+                country: user.country,
+                city: user.city,
+            },
+            tokenString
         })
     } catch (error) {
         next(error)
@@ -92,6 +95,7 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
         })
 
         res.status(200).json({ message: "logout success" })
+        res.clearCookie('cookieName', { httpOnly: true });
 
     } catch (error) {
         next(error)
@@ -122,7 +126,7 @@ export async function updateProfile(req: Request, res: Response, next: NextFunct
 
         const user = await User.findById(id).select('-password')
 
-        res.status(200).json({user,message:"Updated successfully"})
+        res.status(200).json({ user, message: "Updated successfully" })
 
 
     } catch (error) {

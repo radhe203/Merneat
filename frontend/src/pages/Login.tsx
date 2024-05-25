@@ -52,6 +52,8 @@ dispatch(showHero())
       if (res.ok) {
         dispatch(signInSuccess(data.user));
         localStorage.setItem('user',JSON.stringify(data.user))
+        console.log(data.tokenString)
+        document.cookie = data.tokenString
         toast.success(data.message)
         navigate("/");
       }

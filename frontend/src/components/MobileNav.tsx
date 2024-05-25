@@ -26,6 +26,7 @@ const {baseUrl} = useAppSelector(state=>state.User)
 
       if (res.ok) {
         navigate("/");
+        document.cookie = `merneat_auth_token=;expires=${new Date(0)}`
         dispatch(signOutsucsess());
         toast.success(data.message)
       }
