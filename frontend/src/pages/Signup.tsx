@@ -13,7 +13,7 @@ type loginData = {
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { error, loading } = useAppSelector((state) => state.User)
+  const { error, loading,baseUrl } = useAppSelector((state) => state.User)
   const [user, setUser] = useState<loginData>({
     username: "",
     email: "",
@@ -26,7 +26,7 @@ const Signup = () => {
     dispatch(signInStart());
     e.preventDefault();
     try {
-      const res = await fetch(`https://merneat.onrender.com/api/auth/signup`, {
+      const res = await fetch(`${baseUrl}/api/auth/signup`, {
         method: "POST",
         credentials: "include",
         headers: {

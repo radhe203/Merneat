@@ -18,10 +18,10 @@ import { toast } from "sonner";
 function MobileNav() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+const {baseUrl} = useAppSelector(state=>state.User)
   async function logOut() {
     try {
-      const res = await fetch(`https://merneat.onrender.com/api/auth/logout`);
+      const res = await fetch(`${baseUrl}/api/auth/logout`);
       const data = await res.json();
 
       if (res.ok) {

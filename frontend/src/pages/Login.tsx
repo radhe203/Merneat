@@ -16,13 +16,12 @@ type loginData = {
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { error, loading, } = useAppSelector(
+  const { error, loading,baseUrl } = useAppSelector(
     (state) => state.User
   );
 
   useEffect(()=>{
 dispatch(showHero())
-console.log(import.meta.env.VITE_API)
   },[])
 
   const navigate = useNavigate();
@@ -34,7 +33,7 @@ console.log(import.meta.env.VITE_API)
     e.preventDefault();
     try {
       dispatch(signInStart());
-      const res = await fetch(`https://merneat.onrender.com/api/auth/login`, {
+      const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: "POST",
         credentials:"include",
         headers: {
@@ -52,7 +51,6 @@ console.log(import.meta.env.VITE_API)
 
       if (res.ok) {
         dispatch(signInSuccess(data.user));
-        console.log(data.user)
         localStorage.setItem('user',JSON.stringify(data.user))
         toast.success(data.message)
         navigate("/");
@@ -60,7 +58,6 @@ console.log(import.meta.env.VITE_API)
     } catch (error: any) {
       dispatch(signInFailure(error.message));
       toast.error(error.message)
-      console.log(error)
     }
   }
 

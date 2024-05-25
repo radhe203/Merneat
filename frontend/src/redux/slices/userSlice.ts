@@ -12,11 +12,12 @@ const userSlice = createSlice({
         email: storedUser?.email || null,
         userId: storedUser?.userId ||  null,
         addressLine1:storedUser?.addressLine1 ||  null,
-        city:storedUser?.addressLine1 ||  null,
+        city:storedUser?.city ||  null,
         country:storedUser?.country || null,
         error: null,
         loading: false,
-        hero:false
+        hero:false,
+        baseUrl: Number(import.meta.env.VITE_PRODUCTION) ? import.meta.env.VITE_API_PROD_URL : import.meta.env.VITE_API_DEV_URL
     },
     reducers: {
         signInStart: (state) => {

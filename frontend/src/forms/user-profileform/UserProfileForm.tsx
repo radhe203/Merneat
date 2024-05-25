@@ -21,11 +21,10 @@ type Props = {
 }
 const UserProfileForm = ({ onSave }: Props) => {
     const { addressLine1,city,email,username,country} = useAppSelector(state => state.User)
-    console.log(addressLine1,city)
     const form = useForm<UserformData>({
         resolver: zodResolver(FormSchema),
         defaultValues:{
-            username,country,email,addressLine1:addressLine1,city
+            username,country,email,addressLine1,city
         }
     })
     const { loading } = useAppSelector(state => state.User)

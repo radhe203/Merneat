@@ -3,6 +3,7 @@ import User from "../models/user"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import ErrorHandler from "../utils/ErrorHandler"
+const production:number | boolean = Number(process.env.PRODUCTION)
 export async function signup(req: Request, res: Response, next: NextFunction) {
     try {
         const { username, email, password } = req.body
@@ -49,11 +50,10 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
         res.cookie('merneat_token', token, {
             httpOnly: true,
-            secure: process.env.PRODUCTION ? true : false,
+            secure: production ? true : false,
             maxAge: 1000 * 60 * 60 * 24 * 7,
-            domain:"https://merneat.netlify.app",
-            sameSite:'none',
-
+            // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
+            ...(production && { domain: process.env.PROD_LINK }),
         })
 
         res.status(200).json({
@@ -84,11 +84,11 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
     try {
         res.cookie('merneat_token', "", {
             httpOnly: false,
-            secure: process.env.PRODUCTION ? true : false,
+            secure: production ? true : false,
             maxAge: 0,
             expires: new Date(0),
-            sameSite:'none',
-            domain:"https://merneat.netlify.app"
+            // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
+            ...(production && { domain: process.env.PROD_LINK }),
         })
 
         res.status(200).json({ message: "logout success" })

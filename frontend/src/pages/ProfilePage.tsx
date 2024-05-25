@@ -6,14 +6,14 @@ import { toast } from 'sonner'
 
 const ProfilePage = () => {
     const dispatch = useAppDispatch()
-    const { userId } = useAppSelector(state => state.User)
+    const { userId ,baseUrl} = useAppSelector(state => state.User)
     useEffect(() => {
         dispatch(hideHero())
     }, [])
     async function onSave(UserProfileData: UserformData) {
         dispatch(updateStart())
         try {
-            const res = await fetch(`https://merneat.onrender.com/api/auth/update-profile`, {
+            const res = await fetch(`${baseUrl}/api/auth/update-profile`, {
                 method: "PUT",
                 credentials:"include",
                 headers: {

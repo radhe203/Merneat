@@ -7,7 +7,6 @@ import { useAppSelector } from "@/redux/hooks/hooks";
 
 function Layout() {
   const {hero} = useAppSelector(state => state.User)
-  console.log(hero)
   return (
     <>
     <div className="flex flex-col min-h-screen">

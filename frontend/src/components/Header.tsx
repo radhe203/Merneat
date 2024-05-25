@@ -8,13 +8,13 @@ import { useDispatch } from "react-redux";
 import { signOutFaliure, signOutsucsess } from "@/redux/slices/userSlice";
 import { toast } from "sonner";
 const Header = () => {
-  const { username } = useAppSelector((state) => state.User);
+  const { username,baseUrl } = useAppSelector((state) => state.User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   async function logOut() {
     try {
-      const res = await fetch(`https://merneat.onrender.com/api/auth/logout`);
+      const res = await fetch(`${baseUrl}/api/auth/logout`);
       const data = await res.json();
 
       if (res.ok) {
