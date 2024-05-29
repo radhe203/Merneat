@@ -3,7 +3,9 @@ import cors from "cors"
 import "dotenv/config"
 import mongoose from "mongoose"
 import authRouter from "../src/routes/auth"
+import restaurantRouter from "../src/routes/restaurants"
 import cookieParser from "cookie-parser"
+import {v2 as cloudinary} from "cloudinary"
 //mongodb connection
 mongoose.connect(process.env.MONGODB_CONNECTION_URI as string)
     .then(() => {
@@ -11,6 +13,14 @@ mongoose.connect(process.env.MONGODB_CONNECTION_URI as string)
     }).catch((err) => {
         console.log(err)
     })
+
+// cloudinary 
+
+cloudinary.config({
+    cloud_name:process.env.CLOUDINARY_CLOUD_NAME,
+    api_key:process.env.CLOUDINARY_API_KEY,
+    api_secret:process.env.CLOUDINARY_API_SECRET,
+})
 
 
 const app = express()
@@ -24,6 +34,7 @@ app.use(express.json())
 
 
 app.use('/api/auth', authRouter)
+app.use('/api/restaurants',restaurantRouter)
 
 
 
