@@ -61,7 +61,7 @@ const Header = () => {
               <Link to={"/profile"} className="hover:bg-slate-200 p-2">
                 Profile
               </Link>
-              <Link to={"/my-resturants"} className="hover:bg-slate-200 p-2">
+              <Link to={"/my-restaurants"} className="hover:bg-slate-200 p-2">
                 My resturants
               </Link>
               <Button className=" w-full  flex-1 font-bold" onClick={logOut}>

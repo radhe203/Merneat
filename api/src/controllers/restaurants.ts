@@ -21,7 +21,7 @@ export async function createRestaurants(req: Request, res: Response, next: NextF
         const imageUrl = uploadRes.url
 
         const newRestaurent = new Restaurant(req.body)
-
+        console.log(req.body)
         newRestaurent.imageUrl = imageUrl
         newRestaurent.user = new mongoose.Types.ObjectId(userId)
 

@@ -71,7 +71,7 @@ const {baseUrl} = useAppSelector(state=>state.User)
               <Link to={"/profile"} className="hover:bg-slate-200 p-2 w-full">
                 Profile
               </Link>
-              <Link to={"/my-resturants"} className="hover:bg-slate-200 p-2 w-full">
+              <Link to={"/my-restaurants"} className="hover:bg-slate-200 p-2 w-full">
                 My resturants
               </Link>
 
