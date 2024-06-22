@@ -59,7 +59,7 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             username: user.username,
             addressLine1: user.addressLine1,
             country: user.country,
-            city: user.city,
+            city: user.city
         } })
 
        
