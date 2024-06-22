@@ -3,7 +3,6 @@ import User from "../models/user"
 import bcryptjs from "bcryptjs"
 import jwt from "jsonwebtoken"
 import ErrorHandler from "../utils/ErrorHandler"
-const production: number | boolean = Number(process.env.PRODUCTION)
 export async function signup(req: Request, res: Response, next: NextFunction) {
     try {
         const { username, email, password } = req.body
@@ -11,7 +10,6 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
         const user = await User.findOne({ email: email })
 
         if (user) {
-            // return res.status(403).json({ message: "User already exists" })
             return next(ErrorHandler(403, "User already exists"))
         }
 
@@ -48,27 +46,23 @@ export async function login(req: Request, res: Response, next: NextFunction) {
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!)
 
-        const tokenString = `merneat_auth_token=${token};secure=${true};max-age=${1000 * 60 * 60 * 24 * 7}`
 
-        // res.cookie('merneat_token', token, {
-        //     httpOnly: true,
-        //     secure: production ? true : false,
-        //     maxAge: 1000 * 60 * 60 * 24 * 7,
-        //     // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
-        //     ...(production && { domain: process.env.PROD_LINK }),
-        // })
-
-        res.status(200).json({
-            message: "Log in successfull", user: {
-                userId: user._id,
-                email: user.email,
-                username: user.username,
-                addressLine1: user.addressLine1,
-                country: user.country,
-                city: user.city,
-            },
-            tokenString
+        res.cookie('merneat_token', token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            secure:process.env.production === "production"
         })
+
+        res.status(200).json({ message: "Log in successfull", user: {
+            userId: user._id,
+            email: user.email,
+            username: user.username,
+            addressLine1: user.addressLine1,
+            country: user.country,
+            city: user.city,
+        } })
+
+       
     } catch (error) {
         next(error)
     }
@@ -87,11 +81,10 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
     try {
         res.cookie('merneat_token', "", {
             httpOnly: false,
-            secure: production ? true : false,
+            secure: process.env.production === "production",
             maxAge: 0,
             expires: new Date(0),
-            // domain:production ? process.env.PROD_LINK : process.env.DEV_LINK,
-            ...(production && { domain: process.env.PROD_LINK }),
+           
         })
 
         res.status(200).json({ message: "logout success" })
@@ -105,7 +98,8 @@ export async function logOut(req: Request, res: Response, next: NextFunction) {
 
 export async function updateProfile(req: Request, res: Response, next: NextFunction) {
 
-    const { id, userId, username, email, password, addressLine1, city, country } = req.body
+    const { id, username, email, password, addressLine1, city, country } = req.body
+    const userId  = req.userId
     if (userId !== id) {
         return next(ErrorHandler(401, "unauthorised"))
     }

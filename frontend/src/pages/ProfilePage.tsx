@@ -1,4 +1,3 @@
-import getCookie from '@/configs/getCooike'
 import UserProfileForm, { UserformData } from '@/forms/user-profileform/UserProfileForm'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks/hooks'
 import { hideHero, updateFailure, updateStart, updateSuccess } from '@/redux/slices/userSlice'
@@ -16,9 +15,9 @@ const ProfilePage = () => {
         try {
             const res = await fetch(`${baseUrl}/api/auth/update-profile`, {
                 method: "PUT",
+                credentials:"include",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getCookie('merneat_auth_token')}`
 
                 },
                 body: JSON.stringify({ ...UserProfileData, id: userId })

@@ -9,7 +9,6 @@ import { Separator } from "@/components/ui/separator";
 import Cusines from "@/forms/restaurants/Cuisines"
 import MenuSection from "@/forms/restaurants/MenuSection"
 import File from "@/forms/restaurants/File"
-import getCookie from "@/configs/getCooike"
 import { toast } from "sonner"
 import LoadingButton from "@/components/LoadingButton"
 const Restaurent = () => {
@@ -55,10 +54,7 @@ const Restaurent = () => {
 
             const res = await fetch(`${baseUrl}/api/restaurants/create`, {
                 method: "POST",
-                headers: {
-                    // 'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getCookie('merneat_auth_token')}`
-                },
+                credentials:"include",
                 body: formData
             })
 

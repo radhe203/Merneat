@@ -34,6 +34,7 @@ dispatch(showHero())
       dispatch(signInStart());
       const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: "POST",
+        credentials:"include",
         headers: {
           "Content-Type": "Application/json",
         },
@@ -49,8 +50,6 @@ dispatch(showHero())
 
       if (res.ok) {
         dispatch(signInSuccess(data.user));
-        localStorage.setItem('user',JSON.stringify(data.user))
-        document.cookie = data.tokenString
         toast.success(data.message)
         navigate("/");
       }
