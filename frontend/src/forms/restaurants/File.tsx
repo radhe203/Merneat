@@ -7,6 +7,7 @@ type Props={
 
 
 const File = ({file,setFile}:Props) => {
+    console.log(file)
     return (
         <div className='space-y-2 mb-8'>
             <div className='pb-6'>
