@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import userType from "../../../types/userType"
+import userType from "../Types/userType"
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
