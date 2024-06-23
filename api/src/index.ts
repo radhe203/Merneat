@@ -2,8 +2,8 @@ import express, { NextFunction, Request, Response } from "express"
 import cors from "cors"
 import "dotenv/config"
 import mongoose from "mongoose"
-import authRouter from "../src/routes/auth"
-import restaurantRouter from "../src/routes/restaurants"
+import authRouter from "./routes/auth"
+import restaurantRouter from "./routes/restaurants"
 import cookieParser from "cookie-parser"
 import { v2 as cloudinary } from "cloudinary"
 import path from "path"
@@ -34,13 +34,13 @@ app.use(cors({
 app.use(cookieParser())
 app.use(express.json())
 
-app.use(express.static(path.join(__dirname, "../../../../frontend/dist")))
+app.use(express.static(path.join(__dirname, "../../frontend/dist")))
 app.use('/api/auth', authRouter)
 app.use('/api/restaurants', restaurantRouter)
 
 
 app.get("*", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "../../../../frontend/dist/index.html"))
+    res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"))
 })
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

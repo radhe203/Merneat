@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import ErrorHandler from "./ErrorHandler"
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { decode } from "punycode";
+import jwt from "jsonwebtoken";
 
 declare global {
     namespace Express{
