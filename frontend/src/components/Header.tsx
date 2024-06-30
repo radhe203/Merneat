@@ -14,7 +14,10 @@ const Header = () => {
 
   async function logOut() {
     try {
-      const res = await fetch(`${baseUrl}/api/auth/logout`);
+      const res = await fetch(`${baseUrl}/api/auth/logout`,{
+        method:"Post",
+        credentials:"include"
+      });
       const data = await res.json();
 
       if (res.ok) {

@@ -77,23 +77,14 @@ export async function test(req: Request, res: Response, next: NextFunction) {
 }
 
 export async function logOut(req: Request, res: Response, next: NextFunction) {
-
     try {
-        res.cookie('merneat_token', "", {
-            httpOnly: false,
-            secure: process.env.production === "production",
-            maxAge: 0,
-            expires: new Date(0),
-           
+        res.cookie('merneat_token',"",{
+            expires:new Date(0)
         })
-
-        res.status(200).json({ message: "logout success" })
-        res.clearCookie('cookieName', { httpOnly: true });
-
+        res.status(200).json({ message: "logout success" });
     } catch (error) {
-        next(error)
+        next(error);
     }
-
 }
 
 export async function updateProfile(req: Request, res: Response, next: NextFunction) {

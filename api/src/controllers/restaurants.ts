@@ -31,7 +31,6 @@ export async function createRestaurants(req: Request, res: Response, next: NextF
         res.status(200).json({ restaurent: newRestaurent, message: "Resaurant Added Successfully" })
     } catch (error: any) {
         next(error)
-        console.log(error)
     }
 
 }
@@ -45,7 +44,6 @@ console.log(user,id)
 
     try {
         const restaurant = await Restaurant.findOne({user})
-        console.log(restaurant,"hi")
         if (!restaurant) {
             return next(ErrorHandler(400, "You have no restaurent"))
         }

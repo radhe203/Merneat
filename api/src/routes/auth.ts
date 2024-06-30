@@ -8,7 +8,7 @@ router.post('/login',login)
 router.post('/signup',signup)
 router.post('/test',VerifyToken,test)
 router.put('/update-profile',VerifyToken,updateProfile)
-router.get('/logout',logOut)
+router.post('/logout',logOut)
 
 
 export default router

@@ -13,7 +13,6 @@ declare global {
 const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.cookies["merneat_token"]
-        console.log(token)
 
         if (!token) {
             return next(ErrorHandler(401, "Unauthorized"))
@@ -23,7 +22,6 @@ const VerifyToken = (req: Request, res: Response, next: NextFunction) => {
                 return next(ErrorHandler(401, "Unauthorized"))
             }
             req.userId = user.userId
-            console.log(req.userId)
             next()
         })
     } catch (error) {
