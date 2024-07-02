@@ -1,8 +1,17 @@
 import { restaurentType } from "@/configs/schema"
 import { TextField } from "@mui/material"
 import { useFormContext } from "react-hook-form"
+// type Props ={
+//     estimatedDeliveryTime:number | undefined,
+//     name:string | undefined,
+//     deliveryPrice:number | undefined,
+//     country:string | undefined,
+//     city: string | undefined
+// {estimatedDeliveryTime,city,country,name,deliveryPrice}:Props
+// }
+
 const Details = () => {
-    const { register,formState:{errors} } = useFormContext<restaurentType>()
+    const { register, formState: { errors } } = useFormContext<restaurentType>()
     return (
         <div className='space-y-2'>
             <div className=' pb-6'>
@@ -13,6 +22,7 @@ const Details = () => {
             <div>
                 <div className="mb-8">
                     <TextField label="Name" fullWidth {...register("restaurantName")} error={!!errors.restaurantName} helperText={errors.restaurantName?.message} />
+                    
                 </div>
                 <div className="flex gap-6 mb-8 flex-col md:flex-row">
                     <TextField label="City" fullWidth {...register("city")} error={!!errors.city} helperText={errors.city?.message} />
@@ -23,7 +33,7 @@ const Details = () => {
                 </div>
 
                 <div className=" mb-8 md:w-[300px]">
-                    <TextField label="Estimated Delivery Time(min)" {...register("estimatedDeliveryTime")} error={!!errors.estimatedDeliveryTime} helperText={errors.estimatedDeliveryTime?.message} fullWidth/>
+                    <TextField label="Estimated Delivery Time(min)" {...register("estimatedDeliveryTime")} error={!!errors.estimatedDeliveryTime} helperText={errors.estimatedDeliveryTime?.message} fullWidth />
                 </div>
             </div>
         </div>

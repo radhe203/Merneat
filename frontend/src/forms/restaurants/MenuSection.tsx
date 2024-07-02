@@ -14,7 +14,7 @@ type Props = {
 function MenuSection({ Menu, setMenu }: Props) {
 
     function removeElement(id: number) {
-        if(id===0){
+        if(Menu.length <= 1){
             return
         }
         const filtered = Menu.filter((menu: any) => menu.id !== id)

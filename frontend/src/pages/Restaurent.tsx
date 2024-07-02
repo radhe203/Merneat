@@ -6,13 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useEffect, useState } from "react"
 import { FormProvider, useForm } from "react-hook-form"
 import { Separator } from "@/components/ui/separator";
-import Cusines from "@/forms/restaurants/Cuisines"
+import Cuisines from "@/forms/restaurants/Cuisines"
 import MenuSection from "@/forms/restaurants/MenuSection"
 import File from "@/forms/restaurants/File"
 import { toast } from "sonner"
 import LoadingButton from "@/components/LoadingButton"
+import getRestaurant from "@/utils/getRestaurant"
+
 const Restaurent = () => {
-    const { baseUrl, loading } = useAppSelector(state => state.User)
+    const { baseUrl, loading, userId } = useAppSelector(state => state.User)
+    const [preData, setPreData] = useState<restaurentType>()
+    console.log(preData)
     const [Menu, setMenu] = useState([{
         id: 0,
         name: '',
@@ -22,13 +26,39 @@ const Restaurent = () => {
 
     const form = useForm<restaurentType>({
         mode: "all",
-        resolver: zodResolver(restaurentSchema)
+        resolver: zodResolver(restaurentSchema),
+
     })
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(hideHero())
     }, [])
 
+
+
+    async function fetchRestaurent() {
+        const data = await getRestaurant(baseUrl, userId)
+        setPreData({
+            restaurantName: data.restaurantName,
+            city: data.city,
+            country:data.country,
+            deliveryPrice:data.deliveryPrice,
+            estimatedDeliveryTime:data.estimatedDeliveryTime,
+            cuisines: data.cuisines,
+            imageUrl: data.imageUrl
+        })
+
+        setMenu(data.menuItems)
+    }
+    useEffect(() => {
+        fetchRestaurent()
+    }, [])
+
+    useEffect(()=>{
+        form.reset(preData)
+    },[preData])
+
+    //submit area =====================
     async function onSubmit(data: restaurentType) {
         dispatch(restAurentCreationSatrt())
         const formData = new FormData()
@@ -37,10 +67,13 @@ const Restaurent = () => {
         formData.append("country", data.country)
         formData.append("deliveryPrice", data.deliveryPrice.toString())
         formData.append("estimatedDeliveryTime", data.estimatedDeliveryTime.toString())
-        if (file) {
-            formData.append('imageFile', file); 
+        if (preData?.imageUrl) {
+            formData.append("imageurl", preData.imageUrl)
         }
-        data.cusines.forEach((cuisine, index) => {
+        if (file) {
+            formData.append('imageFile', file);
+        }
+        data.cuisines.forEach((cuisine, index) => {
             formData.append(`cuisines[${index}]`, cuisine)
         })
 
@@ -54,7 +87,7 @@ const Restaurent = () => {
 
             const res = await fetch(`${baseUrl}/api/restaurants/create`, {
                 method: "POST",
-                credentials:"include",
+                credentials: "include",
                 body: formData
             })
 
@@ -77,6 +110,7 @@ const Restaurent = () => {
 
 
     }
+    //submit area =====================
 
     return (
         <div className=" bg-slate-100 p-3 md:p-12">
@@ -84,13 +118,18 @@ const Restaurent = () => {
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <Details />
                     <Separator />
-                    <Cusines />
+                    <Cuisines />
                     <Separator />
                     <MenuSection Menu={Menu} setMenu={setMenu} />
                     <Separator />
+                    {preData &&
+                        <div className=" max-w-96 my-4">
+                            <img src={preData?.imageUrl} alt="" className="h-full w-full" />
+                        </div>
+                    }
                     <File file={file} setFile={setFile} />
-                    {loading ? <LoadingButton/> : <button type="submit" disabled={loading} className=" disabled:opacity-90 text-xl font-semibold px-10 py-2 bg-orange-500 text-white rounded-md">
-                    Submit
+                    {loading ? <LoadingButton /> : <button type="submit" disabled={loading} className=" disabled:opacity-90 text-xl font-semibold px-10 py-2 bg-orange-500 text-white rounded-md">
+                        Submit
                     </button>}
                 </form>
             </FormProvider>
@@ -99,3 +138,5 @@ const Restaurent = () => {
 }
 
 export default Restaurent
+
+// name={preData?.restaurantName} city={preData?.city} country={preData?.country} deliveryPrice={preData?.deliveryPrice} estimatedDeliveryTime={preData?.estimatedDeliveryTime}

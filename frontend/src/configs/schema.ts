@@ -15,7 +15,7 @@ export const restaurentSchema = z.object({
             invalid_type_error: "Must be a number"
         }
     ).min(1, "Estimated Delivery time is required"),
-    cusines: z.array(z.string()).nonempty({
+    cuisines: z.array(z.string()).nonempty({
         message: "Please select at least one item"
     }),
     imageUrl: z.string().optional(),
@@ -32,7 +32,7 @@ export type restaurentType = z.infer<typeof restaurentSchema>
 //     country: string;
 //     deliveryPrice: number;
 //     estimatedDeliveryTime: number;
-//     cusines: [string, ...string[]];
+//     cuisines: [string, ...string[]];
 //     imageFile: File | undefined;
 //     imageUrl?: string | undefined;
 // }

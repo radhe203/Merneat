@@ -14,7 +14,7 @@ async function uploadImage(image: Express.Multer.File) {
 
 export async function createRestaurants(req: Request, res: Response, next: NextFunction) {
     try {
-        const userId = req.body.userId
+        const userId = req.userId
         const restaurant = await Restaurant.findOne({ user: userId })
 
         if (restaurant) {
