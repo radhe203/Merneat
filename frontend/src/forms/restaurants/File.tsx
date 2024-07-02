@@ -3,11 +3,11 @@
 type Props={
     file:File | string,
     setFile:(f:any)=>void
+    preData:any
 }
 
 
-const File = ({file,setFile}:Props) => {
-    console.log(file)
+const File = ({setFile,preData}:Props) => {
     return (
         <div className='space-y-2 mb-8'>
             <div className='pb-6'>
@@ -18,7 +18,7 @@ const File = ({file,setFile}:Props) => {
                 <input
                     type="file"
                     accept="image/*"
-                    required
+                    required={!preData}
                     onChange={(e)=>{
                         setFile(e.target.files?.[0])
                     }}

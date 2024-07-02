@@ -16,9 +16,8 @@ import getRestaurant from "@/utils/getRestaurant"
 const Restaurent = () => {
     const { baseUrl, loading, userId } = useAppSelector(state => state.User)
     const [preData, setPreData] = useState<restaurentType>()
-    console.log(preData)
     const [Menu, setMenu] = useState([{
-        id: 0,
+        _id: 0,
         name: '',
         price: undefined,
     }])
@@ -38,6 +37,7 @@ const Restaurent = () => {
 
     async function fetchRestaurent() {
         const data = await getRestaurant(baseUrl, userId)
+       if(data){
         setPreData({
             restaurantName: data.restaurantName,
             city: data.city,
@@ -49,6 +49,7 @@ const Restaurent = () => {
         })
 
         setMenu(data.menuItems)
+       }
     }
     useEffect(() => {
         fetchRestaurent()
@@ -82,11 +83,10 @@ const Restaurent = () => {
             formData.append(`menuItems[${index}][price]`, (Item.price as unknown as number).toString())
         })
 
-
         try {
-
-            const res = await fetch(`${baseUrl}/api/restaurants/create`, {
-                method: "POST",
+            const url = preData ? `${baseUrl}/api/restaurants/update/${userId}`:`${baseUrl}/api/restaurants/create`
+            const res = await fetch(url, {
+                method: preData ? "PUT" : "POST",
                 credentials: "include",
                 body: formData
             })
@@ -127,9 +127,9 @@ const Restaurent = () => {
                             <img src={preData?.imageUrl} alt="" className="h-full w-full" />
                         </div>
                     }
-                    <File file={file} setFile={setFile} />
+                    <File file={file} setFile={setFile} preData/>
                     {loading ? <LoadingButton /> : <button type="submit" disabled={loading} className=" disabled:opacity-90 text-xl font-semibold px-10 py-2 bg-orange-500 text-white rounded-md">
-                        Submit
+                       {preData ? "Update" :"Submit"}
                     </button>}
                 </form>
             </FormProvider>

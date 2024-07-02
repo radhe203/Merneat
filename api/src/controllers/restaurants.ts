@@ -6,10 +6,14 @@ import mongoose from "mongoose"
 
 
 async function uploadImage(image: Express.Multer.File) {
-    const base64Image = Buffer.from(image.buffer).toString('base64')
-    const dataURI = "data:" + image.mimetype + ";base64," + base64Image
-    const uploadRes = await cloudinary.v2.uploader.upload(dataURI, { timeout: 6000000 });
-    return uploadRes.url
+    try {
+        const base64Image = Buffer.from(image.buffer).toString('base64')
+        const dataURI = "data:" + image.mimetype + ";base64," + base64Image
+        const uploadRes = await cloudinary.v2.uploader.upload(dataURI, { timeout: 6000000 });
+        return uploadRes.url
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 export async function createRestaurants(req: Request, res: Response, next: NextFunction) {
@@ -24,7 +28,7 @@ export async function createRestaurants(req: Request, res: Response, next: NextF
         const imageUrl = await uploadImage(req.file as Express.Multer.File)
 
         const newRestaurent = new Restaurant(req.body)
-        newRestaurent.imageUrl = imageUrl
+        newRestaurent.imageUrl = imageUrl as string
         newRestaurent.user = new mongoose.Types.ObjectId(userId)
         await newRestaurent.save()
 
@@ -37,13 +41,13 @@ export async function createRestaurants(req: Request, res: Response, next: NextF
 export async function getRestaurant(req: Request, res: Response, next: NextFunction) {
     const user = req.params.userId?.toString()
     const id = req.userId
-console.log(user,id)
+    console.log(user, id)
     if (id !== user) {
         return next(ErrorHandler(401, "Unauthorised"))
     }
 
     try {
-        const restaurant = await Restaurant.findOne({user})
+        const restaurant = await Restaurant.findOne({ user })
         if (!restaurant) {
             return next(ErrorHandler(400, "You have no restaurent"))
         }
@@ -57,7 +61,7 @@ console.log(user,id)
 export async function updateRestaurant(req: Request, res: Response, next: NextFunction) {
     const userId = req.params.userId
     const id = req.userId
-    const {restaurantName,city,country,deliveryPrice,estimatedDeliveryTime,cuisines,menuItems } = req.body
+    const { restaurantName, city, country, deliveryPrice, estimatedDeliveryTime, cuisines, menuItems } = req.body
     console.log(menuItems)
     if (id !== userId) {
         return next(ErrorHandler(401, "Unauthorised"))
@@ -74,22 +78,21 @@ export async function updateRestaurant(req: Request, res: Response, next: NextFu
         if (req.file) {
             imageUrl = await uploadImage(req.file as Express.Multer.File)
         }
-
+        console.log(imageUrl)
         await Restaurant.findOneAndUpdate({
             user: userId,
             $set: {
-                ...(restaurantName && {restaurantName}),
-                ...(city && {city}),
-                ...(country && {country}),
-                ...(deliveryPrice && {deliveryPrice}),
-                ...(estimatedDeliveryTime && {estimatedDeliveryTime}),
-                ...(cuisines && {cuisines}),
-                ...(menuItems && {menuItems}),
+                ...(restaurantName && { restaurantName }),
+                ...(city && { city }),
+                ...(country && { country }),
+                ...(deliveryPrice && { deliveryPrice }),
+                ...(estimatedDeliveryTime && { estimatedDeliveryTime }),
+                ...(cuisines && { cuisines }),
+                ...(menuItems && { menuItems }),
                 ...(imageUrl && { imageUrl })
             }
         })
-        const updateRestaurant = await Restaurant.findOne({user:userId})
-        res.status(200).json({restaurant:updateRestaurant,message:"Restaurant updated"})
+        res.status(200).json({message: "Restaurant updated" })
     } catch (error) {
         next(error)
     }

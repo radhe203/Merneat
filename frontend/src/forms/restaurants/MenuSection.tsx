@@ -4,7 +4,7 @@ import Item from "./Item"
 
 type Props = {
     Menu:{
-        id:number,
+        _id:number,
         name: string;
         price: number | undefined;
     }[];
@@ -17,7 +17,7 @@ function MenuSection({ Menu, setMenu }: Props) {
         if(Menu.length <= 1){
             return
         }
-        const filtered = Menu.filter((menu: any) => menu.id !== id)
+        const filtered = Menu.filter((menu: any) => menu._id !== id)
         setMenu(filtered)
     }
 
@@ -25,7 +25,7 @@ function MenuSection({ Menu, setMenu }: Props) {
 
        
         const updatedMenu = Menu.map((item) => {
-            if (item.id === id) {
+            if (item._id === id) {
                 return { ...item, price: value }
             }
             return item
@@ -35,7 +35,7 @@ function MenuSection({ Menu, setMenu }: Props) {
 
     function changeNameHandel(id: number, value: string) {
         const updatedMenu = Menu.map((item) => {
-            if (item.id === id) {
+            if (item._id === id) {
                 return { ...item, name: value }
             }
             return item
@@ -51,13 +51,13 @@ function MenuSection({ Menu, setMenu }: Props) {
                 <p className=' text-sm text-slate-500'> Create your menu and give each item a price</p>
             </div>
             {Menu.map((elem) => (
-                <Item key={elem.id} name={elem.name} id={elem.id} price={elem.price} removeElement={removeElement}
+                <Item key={elem._id} name={elem.name} id={elem._id} price={elem.price} removeElement={removeElement}
                     changeNameHandel={changeNameHandel} changePriceHandel={changePriceHandel}
                 />
             ))}
 
             <button className=" bg-black text-white px-3 py-2 rounded-lg  font-semibold"  onClick={() => {
-                setMenu([...Menu, { id: Menu.length - 1 + 1, name: '',price:undefined }])
+                setMenu([...Menu, { _id: Menu.length - 1 + 1, name: '',price:undefined }])
             }}>Add More</button>
 
         </div>
