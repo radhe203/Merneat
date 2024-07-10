@@ -3,6 +3,7 @@ import cors from "cors"
 import "dotenv/config"
 import mongoose from "mongoose"
 import authRouter from "./routes/auth"
+import searchRouter from "./routes/searchRestaurant"
 import restaurantRouter from "./routes/restaurants"
 import cookieParser from "cookie-parser"
 import { v2 as cloudinary } from "cloudinary"
@@ -37,6 +38,7 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, "../../frontend/dist")))
 app.use('/api/auth', authRouter)
 app.use('/api/restaurants', restaurantRouter)
+app.use('/api/search',searchRouter)
 
 
 app.get("*", (req: Request, res: Response) => {

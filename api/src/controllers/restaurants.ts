@@ -41,7 +41,6 @@ export async function createRestaurants(req: Request, res: Response, next: NextF
 export async function getRestaurant(req: Request, res: Response, next: NextFunction) {
     const user = req.params.userId?.toString()
     const id = req.userId
-    console.log(user, id)
     if (id !== user) {
         return next(ErrorHandler(401, "Unauthorised"))
     }
@@ -62,7 +61,6 @@ export async function updateRestaurant(req: Request, res: Response, next: NextFu
     const userId = req.params.userId
     const id = req.userId
     const { restaurantName, city, country, deliveryPrice, estimatedDeliveryTime, cuisines, menuItems } = req.body
-    console.log(menuItems)
     if (id !== userId) {
         return next(ErrorHandler(401, "Unauthorised"))
     }
@@ -78,22 +76,24 @@ export async function updateRestaurant(req: Request, res: Response, next: NextFu
         if (req.file) {
             imageUrl = await uploadImage(req.file as Express.Multer.File)
         }
-        console.log(imageUrl)
-        await Restaurant.findOneAndUpdate({
-            user: userId,
-            $set: {
-                ...(restaurantName && { restaurantName }),
-                ...(city && { city }),
-                ...(country && { country }),
-                ...(deliveryPrice && { deliveryPrice }),
-                ...(estimatedDeliveryTime && { estimatedDeliveryTime }),
-                ...(cuisines && { cuisines }),
-                ...(menuItems && { menuItems }),
-                ...(imageUrl && { imageUrl })
+        await Restaurant.findOneAndUpdate(
+            { user: userId },
+            {
+                $set: {
+                    ...(restaurantName && { restaurantName }),
+                    ...(city && { city }),
+                    ...(country && { country }),
+                    ...(deliveryPrice && { deliveryPrice }),
+                    ...(estimatedDeliveryTime && { estimatedDeliveryTime }),
+                    ...(cuisines && { cuisines }),
+                    ...(menuItems && { menuItems }),
+                    ...(imageUrl && { imageUrl })
+                }
             }
-        })
+        );
         res.status(200).json({message: "Restaurant updated" })
     } catch (error) {
         next(error)
+        console.log(error)
     }
 }
