@@ -13,12 +13,14 @@ import RestrictedRoutes from "./RestrictedRoutes";
 import ProtectedRoutes from "./ProtectedRoutes";
 import ProfilePage from "./pages/ProfilePage";
 import Restaurent from "./pages/Restaurent";
+import SearchPage from "./pages/SearchPage";
 
 const Approutes = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="/search/:searchQuery" element={<SearchPage/>}  />
         <Route element={<RestrictedRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
