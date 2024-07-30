@@ -3,14 +3,17 @@ import userType from "../Types/userType"
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        unique: true
+        unique: true,
+        required:true
     },
     email: {
         type: String,
-        unique: true
+        unique: true,
+        required:true
     },
     password: {
-        type: String
+        type: String,
+        required:true
     },
     addressLine1: {
         type: String
