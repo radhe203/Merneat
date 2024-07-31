@@ -1,3 +1,5 @@
+import PaginationSelector from "@/components/PaginationSelector"
+import SearchBar, { searchform } from "@/components/SearchBar"
 import SearchResultCards from "@/components/SearchResultCards"
 import SearchResultInfo from "@/components/SearchResultInfo"
 import { restaurentType } from "@/configs/schema"
@@ -17,11 +19,25 @@ type resultType = {
     }
 }
 
+export type searchStateType = {
+    searchQuery: string,
+    page:number
+}
+
+
 const SearchPage = () => {
+
+
+    const [searchState, setSearchState] = useState<searchStateType>({
+        searchQuery: "",
+        page:1,
+    })
+
 
     const dispatch = useAppDispatch()
     const { baseUrl } = useAppSelector(state => state.User)
     const [results, setResults] = useState<resultType>()
+    console.log(results)
     useEffect(() => {
         dispatch(hideHero())
     }, [])
@@ -29,10 +45,15 @@ const SearchPage = () => {
     const city = useParams().searchQuery
 
 
-    async function searchRestaurants(searchTerm: string) {
+    async function searchRestaurants(city: string,searchState?:any) {
+
+        const params = new URLSearchParams();
+
+        params.set("searchQuery",searchState.searchQuery)
+        params.set("page",searchState.page.toString())
 
         try {
-            const res = await fetch(`${baseUrl}/api/search/${searchTerm}`, {
+            const res = await fetch(`${baseUrl}/api/search/${city}?${params.toString()}`, {
                 method: "GET",
                 credentials: "include"
 
@@ -43,7 +64,6 @@ const SearchPage = () => {
 
             if (res.ok) {
                 setResults(data)
-                console.log(results)
             }
 
         } catch (error: any) {
@@ -55,13 +75,38 @@ const SearchPage = () => {
 
     useEffect(() => {
         if (city) {
-            searchRestaurants(city as string)
+            searchRestaurants(city,searchState)
         }
-    }, [])
+    }, [searchState])
 
 
     if (!results?.data || !city) {
         return <span>No result Found</span>
+    }
+
+
+    function setSearchQuery(searchFormData: searchform) {
+        setSearchState((prev) => ({
+            ...prev,
+            searchQuery: searchFormData.searchQuery,
+        }));
+    }
+
+
+    function resetSearch() {
+        setSearchState((prev) => ({
+            ...prev,
+            searchQuery: "",
+            page:1
+        }));
+    }
+
+
+    function setPage(page:number){
+        setSearchState((prev) => ({
+            ...prev,
+            page
+        }));
     }
 
     return (
@@ -73,16 +118,21 @@ const SearchPage = () => {
             </div>
 
             <div id="main_content" className=" flex flex-col gap-5">
+
+                <SearchBar onSubmit={setSearchQuery} searchQuery={searchState.searchQuery} onReset={resetSearch} placeholder="Search by cuisine name or Restaurant name" />
+
                 <SearchResultInfo total={results.pagination.total} city={city} />
                 {
-                    results.data.map((restaurant,index) => {
+                    results.data.map((restaurant, index) => {
                         return (
 
-                            <SearchResultCards key={index} restaurant={restaurant}/>
-    
-)
+                            <SearchResultCards key={index} restaurant={restaurant} />
+
+                        )
                     })
                 }
+
+                <PaginationSelector page={results.pagination.page} pages={results.pagination.pages} onPageChange={setPage}/>
             </div>
         </div>
     )
