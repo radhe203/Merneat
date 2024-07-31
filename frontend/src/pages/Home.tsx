@@ -6,22 +6,18 @@ import { useAppDispatch } from "@/redux/hooks/hooks";
 import SearchBar, { searchform } from "@/components/SearchBar";
 import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(showHero());
+  }, []);
 
-  const dispatch = useAppDispatch()
-  useEffect(()=>{
-    dispatch(showHero())
-      },[])
-
-
-      function handelSubmit(searchform:searchform){
-
-        navigate({
-          pathname:`/search/${searchform.searchQuery}`
-        })
-
-      }
+  function handelSubmit(searchform: searchform) {
+    navigate({
+      pathname: `/search/${searchform.searchQuery}`,
+    });
+  }
 
   return (
     <div className=" flex flex-col gap-12">
@@ -30,7 +26,10 @@ const Home = () => {
           Truck into a takeway today
         </h1>
         <span className=" text-xl">Food is just click away</span>
-        <SearchBar placeholder="search by city or town" onSubmit={handelSubmit}/>
+        <SearchBar
+          placeholder="search by city or town"
+          onSubmit={handelSubmit}
+        />
       </div>
       <div className=" grid  md:grid-cols-2 gap-5">
         <img src={landing} />

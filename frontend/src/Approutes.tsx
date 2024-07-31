@@ -20,14 +20,14 @@ const Approutes = () => {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/search/:searchQuery" element={<SearchPage/>}  />
+        <Route path="/search/:searchQuery" element={<SearchPage />} />
         <Route element={<RestrictedRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
         </Route>
         <Route element={<ProtectedRoutes />}>
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/my-restaurants" element={<Restaurent/>}/>
+          <Route path="/my-restaurants" element={<Restaurent />} />
         </Route>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>

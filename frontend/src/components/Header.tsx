@@ -8,35 +8,32 @@ import { useDispatch } from "react-redux";
 import { signOutFaliure, signOutsucsess } from "@/redux/slices/userSlice";
 import { toast } from "sonner";
 const Header = () => {
-  const { username,baseUrl } = useAppSelector((state) => state.User);
+  const { username, baseUrl } = useAppSelector((state) => state.User);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   async function logOut() {
     try {
-      const res = await fetch(`${baseUrl}/api/auth/logout`,{
-        method:"Post",
-        credentials:"include"
+      const res = await fetch(`${baseUrl}/api/auth/logout`, {
+        method: "Post",
+        credentials: "include",
       });
       const data = await res.json();
 
       if (res.ok) {
         navigate("/");
         dispatch(signOutsucsess());
-        toast.success(data.message)
-
+        toast.success(data.message);
       }
 
       if (!res.ok) {
         dispatch(signOutFaliure(data.message));
-        toast.error(data.message)
-
+        toast.error(data.message);
       }
     } catch (error: any) {
       dispatch(signOutFaliure(error.message));
       console.log(error.message);
-      toast.error(error.message)
-
+      toast.error(error.message);
     }
   }
 

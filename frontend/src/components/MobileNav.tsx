@@ -18,30 +18,29 @@ import { toast } from "sonner";
 function MobileNav() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-const {baseUrl} = useAppSelector(state=>state.User)
+  const { baseUrl } = useAppSelector((state) => state.User);
   async function logOut() {
     try {
-      const res = await fetch(`${baseUrl}/api/auth/logout`,{
-        method:"Post",
-        credentials:"include"
+      const res = await fetch(`${baseUrl}/api/auth/logout`, {
+        method: "Post",
+        credentials: "include",
       });
       const data = await res.json();
 
       if (res.ok) {
         navigate("/");
         dispatch(signOutsucsess());
-        toast.success(data.message)
+        toast.success(data.message);
       }
 
       if (!res.ok) {
         dispatch(signOutFaliure(data.message));
-        toast.error(data.message)
-
+        toast.error(data.message);
       }
     } catch (error: any) {
       dispatch(signOutFaliure(error.message));
       console.log(error.message);
-      toast.error(error.message)
+      toast.error(error.message);
     }
   }
 
@@ -73,7 +72,10 @@ const {baseUrl} = useAppSelector(state=>state.User)
               <Link to={"/profile"} className="hover:bg-slate-200 p-2 w-full">
                 Profile
               </Link>
-              <Link to={"/my-restaurants"} className="hover:bg-slate-200 p-2 w-full">
+              <Link
+                to={"/my-restaurants"}
+                className="hover:bg-slate-200 p-2 w-full"
+              >
                 My resturants
               </Link>
 

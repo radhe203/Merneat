@@ -1,18 +1,18 @@
 export default async function getRestaurant(baseUrl: string, userId: string) {
-    try {
-        const res = await fetch(`${baseUrl}/api/restaurants/get/${userId}`, {
-            method: "GEt",
-            credentials: "include",
-        })
+  try {
+    const res = await fetch(`${baseUrl}/api/restaurants/get/${userId}`, {
+      method: "GEt",
+      credentials: "include",
+    });
 
-        const data = await res.json()
+    const data = await res.json();
 
-        if (res.ok) {
-            if (data) {
-                return data
-            }
-        }
-    } catch (error) {
-        console.error(error)
+    if (res.ok) {
+      if (data) {
+        return data;
+      }
     }
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -15,13 +15,11 @@ type loginData = {
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const { error, loading,baseUrl } = useAppSelector(
-    (state) => state.User
-  );
+  const { error, loading, baseUrl } = useAppSelector((state) => state.User);
 
-  useEffect(()=>{
-dispatch(showHero())
-  },[])
+  useEffect(() => {
+    dispatch(showHero());
+  }, []);
 
   const navigate = useNavigate();
   const [user, setUser] = useState<loginData>({
@@ -34,7 +32,7 @@ dispatch(showHero())
       dispatch(signInStart());
       const res = await fetch(`${baseUrl}/api/auth/login`, {
         method: "POST",
-        credentials:"include",
+        credentials: "include",
         headers: {
           "Content-Type": "Application/json",
         },
@@ -45,18 +43,18 @@ dispatch(showHero())
 
       if (!res.ok) {
         dispatch(signInFailure(data.message));
-        toast.error(data.message)
+        toast.error(data.message);
       }
 
       if (res.ok) {
         dispatch(signInSuccess(data.user));
-        localStorage.setItem('user',JSON.stringify(data.user))
-        toast.success(data.message)
+        localStorage.setItem("user", JSON.stringify(data.user));
+        toast.success(data.message);
         navigate("/");
       }
     } catch (error: any) {
       dispatch(signInFailure(error.message));
-      toast.error(error.message)
+      toast.error(error.message);
     }
   }
 
@@ -84,7 +82,7 @@ dispatch(showHero())
           disabled={loading}
           className=" disabled:opacity-85 w-full bg-orange-500 text-white text-xl font-semibold py-3 "
         >
-           {loading ? "Loading..." :  "Log in"}
+          {loading ? "Loading..." : "Log in"}
         </button>
       </form>
       <div className=" mt-3">

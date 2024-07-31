@@ -1,5 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { showHero, signInFailure, signInStart, signUpSuccess } from "@/redux/slices/userSlice";
+import {
+  showHero,
+  signInFailure,
+  signInStart,
+  signUpSuccess,
+} from "@/redux/slices/userSlice";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -13,22 +18,22 @@ type loginData = {
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { error, loading,baseUrl } = useAppSelector((state) => state.User)
+  const { error, loading, baseUrl } = useAppSelector((state) => state.User);
   const [user, setUser] = useState<loginData>({
     username: "",
     email: "",
     password: "",
   });
   useEffect(() => {
-    dispatch(showHero())
-  }, [])
+    dispatch(showHero());
+  }, []);
   async function SignupHandle(e: any) {
     dispatch(signInStart());
     e.preventDefault();
     try {
       const res = await fetch(`${baseUrl}/api/auth/signup`, {
         method: "POST",
-        credentials:"include",
+        credentials: "include",
         headers: {
           "Content-Type": "Application/json",
         },
@@ -37,18 +42,17 @@ const Signup = () => {
 
       const data = await res.json();
       if (res.ok) {
-        dispatch(signUpSuccess())
-        toast.success(data.message)
+        dispatch(signUpSuccess());
+        toast.success(data.message);
         navigate("/login");
       }
       if (!res.ok) {
         dispatch(signInFailure(data.message));
-        toast.error(data.message)
+        toast.error(data.message);
       }
-
     } catch (error: any) {
       dispatch(signInFailure(error.message));
-      toast.error(error.message)
+      toast.error(error.message);
     }
   }
 
@@ -79,7 +83,10 @@ const Signup = () => {
           placeholder="Enter your password here"
           className=" outline-none min-w-80 md:min-w-96 border-2 border-gray-500 rounded-sm p-3"
         />
-        <button disabled={loading} className=" disabled:opacity-85 w-full bg-orange-500 text-white text-xl font-semibold py-3 ">
+        <button
+          disabled={loading}
+          className=" disabled:opacity-85 w-full bg-orange-500 text-white text-xl font-semibold py-3 "
+        >
           {loading ? "Loading..." : " Sign up"}
         </button>
       </form>
