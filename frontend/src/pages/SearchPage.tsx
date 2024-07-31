@@ -3,6 +3,7 @@ import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { searchform } from "@/components/SearchBar";
 import SearchResultCards from "@/components/SearchResultCards";
 import SearchResultInfo from "@/components/SearchResultInfo";
+import SortOptionDropDown from "@/components/SortOptionDropDown";
 import { restaurentType } from "@/configs/schema";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { hideHero } from "@/redux/slices/userSlice";
@@ -22,7 +23,8 @@ type resultType = {
 export type searchStateType = {
   searchQuery: string;
   page: number;
-  selectedCuisine: string[];
+  selectedCuisine: string[],
+  sortOption:string,
 };
 
 const SearchPage = () => {
@@ -30,6 +32,7 @@ const SearchPage = () => {
     searchQuery: "",
     page: 1,
     selectedCuisine: [],
+    sortOption:"bestMatch"
   });
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -49,6 +52,7 @@ const SearchPage = () => {
     params.set("searchQuery", searchState.searchQuery);
     params.set("page", searchState.page.toString());
     params.set("selectedCuisines", searchState.selectedCuisine.join(","));
+    params.set("sortOptions",searchState.sortOption)
 
     try {
       const res = await fetch(
@@ -111,6 +115,14 @@ const SearchPage = () => {
     }));
   }
 
+  function setSortOption(sortOption:string){
+    setSearchState((prev) => ({
+      ...prev,
+      page: 1,
+      sortOption
+    }));
+  }
+
   return (
     <div className=" grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-5">
       <div id="cuisines_list">
@@ -130,10 +142,15 @@ const SearchPage = () => {
           placeholder="Search by cuisine name or Restaurant name"
         />
 
-        <SearchResultInfo total={results.pagination.total} city={city} />
+       <div className=" flex justify-between flex-col lg:flex-row">
+       <SearchResultInfo total={results.pagination.total} city={city} />
+        <SortOptionDropDown sortOption={searchState.sortOption} onChange={(value)=> setSortOption(value)} />
+
+       </div>
         {results.data.map((restaurant, index) => {
           return <SearchResultCards key={index} restaurant={restaurant} />;
         })}
+
 
         <PaginationSelector
           page={results.pagination.page}

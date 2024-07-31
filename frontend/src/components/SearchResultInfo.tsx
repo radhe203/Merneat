@@ -17,8 +17,6 @@ const SearchResultInfo = ({ total, city }: Props) => {
           change location
         </Link>
       </span>
-
-      <span>dropdown here</span>
     </div>
   );
 };
