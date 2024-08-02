@@ -14,6 +14,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import ProfilePage from "./pages/ProfilePage";
 import Restaurent from "./pages/Restaurent";
 import SearchPage from "./pages/SearchPage";
+import SearchDetailPage from "./pages/SearchDetailPage";
 
 const Approutes = () => {
   const router = createBrowserRouter(
@@ -21,6 +22,7 @@ const Approutes = () => {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/search/:searchQuery" element={<SearchPage />} />
+        <Route path="/detail/:restaurantId" element={<SearchDetailPage />} />
         <Route element={<RestrictedRoutes />}>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

@@ -1,19 +1,19 @@
-import { restaurentType } from "@/configs/schema";
 import { Link } from "react-router-dom";
 import { AspectRatio } from "./ui/aspect-ratio";
 import { Banknote, Clock, Dot } from "lucide-react";
+import { RestaurantType } from "@/types";
 
 type Props = {
-  restaurant: restaurentType;
+  restaurant: RestaurantType;
 };
 
 const SearchResultCards = ({ restaurant }: Props) => {
   return (
     <Link
-      to={`/detail/${restaurant}`}
+      to={`/detail/${restaurant?._id}`}
       className="grid lg:grid-cols-[2fr_3fr] gap-5 group"
     >
-      <AspectRatio ratio={16 / 6}>
+      <AspectRatio ratio={16 / 6} >
         <img
           src={restaurant.imageUrl}
           className=" rounded-md h-full w-full object-cover"

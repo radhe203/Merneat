@@ -19,6 +19,7 @@ export const restaurentSchema = z.object({
   }),
   imageUrl: z.string().optional(),
   imageFile: z.instanceof(File, { message: "image is required" }).optional(),
+ 
 });
 
 export type restaurentType = z.infer<typeof restaurentSchema>;
