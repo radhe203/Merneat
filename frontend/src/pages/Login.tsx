@@ -6,7 +6,7 @@ import {
   signInSuccess,
 } from "@/redux/slices/userSlice";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 type loginData = {
   email: string;
@@ -14,6 +14,7 @@ type loginData = {
 };
 
 const Login = () => {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { error, loading, baseUrl } = useAppSelector((state) => state.User);
 
@@ -50,7 +51,17 @@ const Login = () => {
         dispatch(signInSuccess(data.user));
         localStorage.setItem("user", JSON.stringify(data.user));
         toast.success(data.message);
-        navigate("/");
+
+        const redirectUrl = location.state?.url || "/";
+
+        //using settimeout to assign a task in event loop
+        //before react updates the state . if switch the url then it conflicts with react 
+        //to avoid conflict , assignt redirect as a task in event loop
+
+        
+        setTimeout(() => {
+          navigate(redirectUrl, { replace: true });
+        }, 0);
       }
     } catch (error: any) {
       dispatch(signInFailure(error.message));

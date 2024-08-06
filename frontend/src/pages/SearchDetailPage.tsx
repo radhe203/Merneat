@@ -1,7 +1,8 @@
+import CheckOutButton from "@/components/CheckOutButton";
 import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { hideHero } from "@/redux/slices/userSlice";
 import { CartItemType, MenuItemType, RestaurantType } from "@/types";
@@ -18,7 +19,19 @@ function SearchDetailPage() {
     dispatch(hideHero());
   }, []);
 
-  const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const [cartItems, setCartItems] = useState<CartItemType[]>(()=>{
+
+
+
+    let cart = undefined;
+
+    if(sessionStorage.getItem(`cartItem-${restaurantId}`)){
+      cart = JSON.parse(sessionStorage.getItem(`cartItem-${restaurantId}`) as string)
+    }
+
+    return cart ? cart : []
+
+  });
   function addTocart(menuItem: MenuItemType) {
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item._id === menuItem._id);
@@ -41,6 +54,9 @@ function SearchDetailPage() {
           },
         ];
       }
+
+      sessionStorage.setItem(`cartItem-${restaurantId}`,JSON.stringify(updatedItems))
+
       return updatedItems;
     });
   }
@@ -77,6 +93,8 @@ function SearchDetailPage() {
         (item) => item._id !== cartItem._id
       );
 
+      sessionStorage.setItem(`cartItem-${restaurantId}`,JSON.stringify(updatedItems))
+
       return updatedItems;
     });
   }
@@ -108,6 +126,9 @@ function SearchDetailPage() {
               cartItems={cartItems}
               removeFromCart={removeFromCart}
             />
+            <CardFooter>
+              <CheckOutButton/>
+            </CardFooter>
           </Card>
         </div>
       </div>
