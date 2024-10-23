@@ -80,7 +80,7 @@ const Login = () => {
           value={user?.email}
           onChange={(e) => setUser({ ...user, email: e.target.value })}
           placeholder="Enter your email here"
-          className=" text-xloutline-none min-w-80 border-2 border-gray-600 rounded-sm p-3 outline-none"
+          className=" text-xl outline-none min-w-80 border-2 border-gray-600 rounded-sm p-3"
         />
         <input
           type="password"
