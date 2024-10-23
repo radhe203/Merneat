@@ -17,7 +17,6 @@ const CuisineFilter = ({
   isExpanded,
   onExpendedClick,
 }: Props) => {
-  
   function handelCuisineReset() {
     onChange([]);
   }

@@ -19,18 +19,16 @@ function SearchDetailPage() {
     dispatch(hideHero());
   }, []);
 
-  const [cartItems, setCartItems] = useState<CartItemType[]>(()=>{
-
-
-
+  const [cartItems, setCartItems] = useState<CartItemType[]>(() => {
     let cart = undefined;
 
-    if(sessionStorage.getItem(`cartItem-${restaurantId}`)){
-      cart = JSON.parse(sessionStorage.getItem(`cartItem-${restaurantId}`) as string)
+    if (sessionStorage.getItem(`cartItem-${restaurantId}`)) {
+      cart = JSON.parse(
+        sessionStorage.getItem(`cartItem-${restaurantId}`) as string
+      );
     }
 
-    return cart ? cart : []
-
+    return cart ? cart : [];
   });
   function addTocart(menuItem: MenuItemType) {
     setCartItems((prevItems) => {
@@ -55,7 +53,10 @@ function SearchDetailPage() {
         ];
       }
 
-      sessionStorage.setItem(`cartItem-${restaurantId}`,JSON.stringify(updatedItems))
+      sessionStorage.setItem(
+        `cartItem-${restaurantId}`,
+        JSON.stringify(updatedItems)
+      );
 
       return updatedItems;
     });
@@ -93,7 +94,10 @@ function SearchDetailPage() {
         (item) => item._id !== cartItem._id
       );
 
-      sessionStorage.setItem(`cartItem-${restaurantId}`,JSON.stringify(updatedItems))
+      sessionStorage.setItem(
+        `cartItem-${restaurantId}`,
+        JSON.stringify(updatedItems)
+      );
 
       return updatedItems;
     });
@@ -127,7 +131,7 @@ function SearchDetailPage() {
               removeFromCart={removeFromCart}
             />
             <CardFooter>
-              <CheckOutButton/>
+              <CheckOutButton />
             </CardFooter>
           </Card>
         </div>

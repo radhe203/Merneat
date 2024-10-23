@@ -1,10 +1,10 @@
- type userType = {
-    username:string,
-    email: string,
-    password: string,
-    addressLine1:string,
-    city:string,
-    country:string
-}
+type userType = {
+  username: string;
+  email: string;
+  password: string;
+  addressLine1: string;
+  city: string;
+  country: string;
+};
 
-export default userType
+export default userType;

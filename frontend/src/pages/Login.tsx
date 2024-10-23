@@ -55,10 +55,9 @@ const Login = () => {
         const redirectUrl = location.state?.url || "/";
 
         //using settimeout to assign a task in event loop
-        //before react updates the state . if switch the url then it conflicts with react 
+        //before react updates the state . if switch the url then it conflicts with react
         //to avoid conflict , assignt redirect as a task in event loop
 
-        
         setTimeout(() => {
           navigate(redirectUrl, { replace: true });
         }, 0);

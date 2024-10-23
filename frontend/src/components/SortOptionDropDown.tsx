@@ -27,8 +27,9 @@ const SORT_OPTIONS = [
 ];
 
 function SortOptionDropDown({ onChange, sortOption }: Props) {
-
-    const sortlabel = SORT_OPTIONS.find((option)=> option.value === sortOption)?.label || SORT_OPTIONS[0].label
+  const sortlabel =
+    SORT_OPTIONS.find((option) => option.value === sortOption)?.label ||
+    SORT_OPTIONS[0].label;
 
   return (
     <DropdownMenu>
@@ -43,7 +44,7 @@ function SortOptionDropDown({ onChange, sortOption }: Props) {
               className=" cursor-pointer "
               onClick={() => onChange(option.value)}
             >
-                {option.label}
+              {option.label}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

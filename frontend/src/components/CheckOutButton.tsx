@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 
 function CheckOutButton() {
   const location = useLocation();
-const navigate = useNavigate()
+  const navigate = useNavigate();
   const { email, userId, username } = useAppSelector((state) => state.User);
 
   return (
@@ -17,15 +17,17 @@ const navigate = useNavigate()
           Checkout
         </Button>
       ) : (
-       
-          <Button onClick={()=>{
-            navigate("/login",{state:{url:location.pathname.toString()}})
+        <Button
+          onClick={() => {
+            navigate("/login", {
+              state: { url: location.pathname.toString() },
+            });
           }}
-            variant={"outline"}
-            className=" bg-orange-500 text-white font-bold w-full text-lg"
-          >
-            Continue to login
-          </Button>
+          variant={"outline"}
+          className=" bg-orange-500 text-white font-bold w-full text-lg"
+        >
+          Continue to login
+        </Button>
       )}
     </>
   );

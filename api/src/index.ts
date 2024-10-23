@@ -1,61 +1,62 @@
-import express, { NextFunction, Request, Response } from "express"
-import cors from "cors"
-import "dotenv/config"
-import mongoose from "mongoose"
-import authRouter from "./routes/auth"
-import searchRouter from "./routes/searchRestaurant"
-import restaurantRouter from "./routes/restaurants"
-import cookieParser from "cookie-parser"
-import { v2 as cloudinary } from "cloudinary"
-import path from "path"
+import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
+import "dotenv/config";
+import mongoose from "mongoose";
+import authRouter from "./routes/auth";
+import searchRouter from "./routes/searchRestaurant";
+import restaurantRouter from "./routes/restaurants";
+import cookieParser from "cookie-parser";
+import { v2 as cloudinary } from "cloudinary";
+import path from "path";
 //mongodb connection
-mongoose.connect(process.env.MONGODB_CONNECTION_URI as string)
-    .then(() => {
-        console.log("MongoDB Connected")
-    }).catch((err) => {
-        console.log(err)
-    })
+mongoose
+  .connect(process.env.MONGODB_CONNECTION_URI as string)
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-// cloudinary 
+// cloudinary
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-
-const app = express()
-app.use(express.urlencoded({ extended: true }))
-app.use(cors({
+const app = express();
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
     origin: process.env.CLIENT_URL,
-    credentials: true
-}))
+    credentials: true,
+  })
+);
 
-app.use(cookieParser())
-app.use(express.json())
+app.use(cookieParser());
+app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "../../frontend/dist")))
-app.use('/api/auth', authRouter)
-app.use('/api/restaurants', restaurantRouter)
-app.use('/api/search',searchRouter)
-
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+app.use("/api/auth", authRouter);
+app.use("/api/restaurants", restaurantRouter);
+app.use("/api/search", searchRouter);
 
 app.get("*", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"))
-})
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-    const statusCode = err.statusCode || 500
-    const message = err.message || "Intrernal Server Error"
-    return res.status(statusCode).json({
-        success: false,
-        statusCode,
-        message
-    })
-})
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Intrernal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
 
 app.listen(process.env.PORT, () => {
-    console.log("Server is running on 3000 !!")
-})
-
+  console.log("Server is running on 3000 !!");
+});
