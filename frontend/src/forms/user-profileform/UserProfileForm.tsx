@@ -25,8 +25,10 @@ const FormSchema = z.object({
 export type UserformData = z.infer<typeof FormSchema>;
 type Props = {
   onSave: (UserProfileData: UserformData) => void;
+  tittle?: string,
+  buttonText?: string
 };
-const UserProfileForm = ({ onSave }: Props) => {
+const UserProfileForm = ({ onSave,tittle="User Profile Form",buttonText="Submit" }: Props) => {
   const { addressLine1, city, email, username, country } = useAppSelector(
     (state) => state.User
   );
@@ -49,7 +51,7 @@ const UserProfileForm = ({ onSave }: Props) => {
         className=" space-y-4 bg-gray-50 rounded-lg md:p-10"
       >
         <div>
-          <h2 className=" text-2xl font-bold">User Profile Form</h2>
+          <h2 className=" text-2xl font-bold">{tittle}</h2>
           <FormDescription>
             View and change your profile information here
           </FormDescription>
@@ -138,7 +140,7 @@ const UserProfileForm = ({ onSave }: Props) => {
           <LoadingButton />
         ) : (
           <Button type="submit" className=" bg-orange-500 ">
-            Submit
+          {buttonText}
           </Button>
         )}
       </form>

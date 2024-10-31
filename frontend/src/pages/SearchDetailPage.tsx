@@ -3,6 +3,7 @@ import MenuItem from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { Card, CardFooter } from "@/components/ui/card";
+import { UserformData } from "@/forms/user-profileform/UserProfileForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { hideHero } from "@/redux/slices/userSlice";
 import { CartItemType, MenuItemType, RestaurantType } from "@/types";
@@ -103,6 +104,12 @@ function SearchDetailPage() {
     });
   }
 
+
+
+  async function onCheckout(UserformData:UserformData){
+    console.log(UserformData)
+  }
+
   return (
     <div className=" flex flex-col gap-10">
       <AspectRatio ratio={16 / 5}>
@@ -131,7 +138,7 @@ function SearchDetailPage() {
               removeFromCart={removeFromCart}
             />
             <CardFooter>
-              <CheckOutButton />
+              <CheckOutButton disabled={cartItems.length === 0} onCheckout={onCheckout} />
             </CardFooter>
           </Card>
         </div>
