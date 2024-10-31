@@ -5,7 +5,7 @@ import { createCheckoutSession } from "../controllers/order.controller";
 const router = express.Router();
 
 router.post(
-  "checkout/create-checkout-session",
+  "/checkout/create-checkout-session",
   VerifyToken,
   createCheckoutSession
 );

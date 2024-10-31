@@ -24,7 +24,6 @@ type CheckoutSessionRequest = {
 async function createCheckoutSession(req: Request, res: Response, next: NextFunction) {
   try {
     const CheckoutSessionRequest: CheckoutSessionRequest = req.body;
-
     const restaurant = await Restaurant.findById(
       CheckoutSessionRequest.restaurantId
     );
@@ -73,7 +72,7 @@ function createLineItems(
 
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem = {
       price_data: {
-        currency: "inr",
+        currency: "INR",
         unit_amount: menuitem.price,
         product_data: {
           name: menuitem.name,

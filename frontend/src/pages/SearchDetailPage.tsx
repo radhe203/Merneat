@@ -6,15 +6,19 @@ import { Card, CardFooter } from "@/components/ui/card";
 import { UserformData } from "@/forms/user-profileform/UserProfileForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { hideHero } from "@/redux/slices/userSlice";
+import { useCreateCheckoutSession } from "@/service/OrderApi";
 import { CartItemType, MenuItemType, RestaurantType } from "@/types";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useEffect, useState } from "react";
+import { FaCity } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 function SearchDetailPage() {
   const restaurantId = useParams().restaurantId?.toString();
   const [restaurant, setRestaurant] = useState<RestaurantType>();
+  const createSession = useCreateCheckoutSession();
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(hideHero());
@@ -104,10 +108,29 @@ function SearchDetailPage() {
     });
   }
 
+  async function onCheckout(UserformData: UserformData) {
+    console.log(UserformData);
 
+    if(!restaurant){
+      return;
+    }
 
-  async function onCheckout(UserformData:UserformData){
-    console.log(UserformData)
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        menuItemId: cartItem._id,
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString(),
+      })),
+      restaurantId : restaurant?._id,
+      deliveryDetails : {
+        addressLine1 :UserformData.addressLine1,
+        username : UserformData.username as string,
+        email: UserformData.email  as string,
+        city:UserformData.city
+      }
+    };
+    const data = await createSession(checkoutData)
+    window.location.href = data.url
   }
 
   return (
@@ -138,7 +161,10 @@ function SearchDetailPage() {
               removeFromCart={removeFromCart}
             />
             <CardFooter>
-              <CheckOutButton disabled={cartItems.length === 0} onCheckout={onCheckout} />
+              <CheckOutButton
+                disabled={cartItems.length === 0}
+                onCheckout={onCheckout}
+              />
             </CardFooter>
           </Card>
         </div>
