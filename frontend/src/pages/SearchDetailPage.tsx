@@ -10,7 +10,6 @@ import { useCreateCheckoutSession } from "@/service/OrderApi";
 import { CartItemType, MenuItemType, RestaurantType } from "@/types";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useEffect, useState } from "react";
-import { FaCity } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -109,7 +108,6 @@ function SearchDetailPage() {
   }
 
   async function onCheckout(UserformData: UserformData) {
-    console.log(UserformData);
 
     if(!restaurant){
       return;

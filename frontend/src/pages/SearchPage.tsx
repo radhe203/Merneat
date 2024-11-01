@@ -40,7 +40,6 @@ const SearchPage = () => {
   const dispatch = useAppDispatch();
   const { baseUrl } = useAppSelector((state) => state.User);
   const [results, setResults] = useState<resultType>();
-  console.log(results);
   useEffect(() => {
     dispatch(hideHero());
   }, []);

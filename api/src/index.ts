@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import authRouter from "./routes/auth";
 import searchRouter from "./routes/searchRestaurant";
 import restaurantRouter from "./routes/restaurants";
-import orderRoute from "./routes/order.routes"
+import orderRoute from "./routes/order.routes";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 import path from "path";
@@ -28,22 +28,22 @@ cloudinary.config({
 });
 
 const app = express();
-app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
-
+app.use("/api/order/checkout/webhook", express.raw({ type: "*/*" }));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 app.use("/api/auth", authRouter);
 app.use("/api/restaurants", restaurantRouter);
 app.use("/api/search", searchRouter);
-app.use("/api/order",orderRoute)
+app.use("/api/order", orderRoute);
 
 app.get("*", (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));

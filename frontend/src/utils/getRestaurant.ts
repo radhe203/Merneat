@@ -2,7 +2,7 @@ export default async function getRestaurant(baseUrl: string, userId: string) {
   try {
     const res = await fetch(`${baseUrl}/api/restaurants/get/${userId}`, {
       method: "GEt",
-      credentials: "include",
+     
     });
 
     const data = await res.json();

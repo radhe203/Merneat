@@ -19,7 +19,6 @@ export function useCreateCheckoutSession() {
   const { baseUrl } = useAppSelector((state) => state.User);
 
   const CreateCheckoutSession = async (CheckoutSessionRequest: CheckoutSessionRequest) => {
-    console.log(CheckoutSessionRequest)
     try {
       const res = await fetch(
         `${baseUrl}/api/order/checkout/create-checkout-session`,
@@ -34,11 +33,9 @@ export function useCreateCheckoutSession() {
       );
 
       if (!res.ok) {
-        console.log(res)
         throw new Error("Unable to create checkout session");
       }
       const data = await res.json()
-      console.log(data)
       return data
     } catch (error: any) {
       toast.error(error.toString());
