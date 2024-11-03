@@ -15,6 +15,7 @@ import ProfilePage from "./pages/ProfilePage";
 import Restaurent from "./pages/Restaurent";
 import SearchPage from "./pages/SearchPage";
 import SearchDetailPage from "./pages/SearchDetailPage";
+import OrdersStatus from "./pages/OrdersStatus";
 
 const Approutes = () => {
   const router = createBrowserRouter(
@@ -30,6 +31,7 @@ const Approutes = () => {
         <Route element={<ProtectedRoutes />}>
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/my-restaurants" element={<Restaurent />} />
+          <Route path="/order-status" element={<OrdersStatus />} />
         </Route>
         <Route path="*" element={<Navigate to={"/"} />} />
       </Route>

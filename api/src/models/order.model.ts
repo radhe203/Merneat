@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema(
   {
     restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    username: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     deliveryDetails: {
       email: { type: String, required: true },
       addressLine1: { type: String, required: true },
@@ -20,7 +20,7 @@ const orderSchema = new mongoose.Schema(
     totalAmount: Number,
     status: {
       type: String,
-      enum: ["Placed", "Paid", "inProgress", "OutForDelivery", "Delivered"],
+      enum: ["Placed", "Paid", "InProgress", "OutForDelivery", "Delivered"],
     },
   },
   { timestamps: true }

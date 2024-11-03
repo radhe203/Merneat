@@ -47,25 +47,34 @@ const Header = () => {
           Merneat.com
         </Link>
         {username ? (
-          <div className=" user">
-            <div className="hidden md:flex gap-2 items-center cursor-pointer ">
-              <span className=" text-orange-500 text-3xl">
-                <FaRegUserCircle />
-              </span>
-              <span className="font-semibold text-xl hover:text-orange-500">
-                {username}
-              </span>
-            </div>
-            <div className="hidden flex-col gap-1 px-3 py-6 shadow-2xl rounded-md absolute bg-white w-[180px] text-center user-detail">
-              <Link to={"/profile"} className="hover:bg-slate-200 p-2">
-                Profile
-              </Link>
-              <Link to={"/my-restaurants"} className="hover:bg-slate-200 p-2">
-                My resturants
-              </Link>
-              <Button className=" w-full  flex-1 font-bold" onClick={logOut}>
-                Log out
-              </Button>
+          <div className=" flex gap-5">
+            <Link
+              to={"/order-status"}
+              className="hidden md:block font-semibold text-xl text-orange-500"
+            >
+             Order status
+            </Link>
+
+            <div className=" user">
+              <div className="hidden md:flex gap-2 items-center cursor-pointer ">
+                <span className=" text-orange-500 text-3xl">
+                  <FaRegUserCircle />
+                </span>
+                <span className="font-semibold text-xl hover:text-orange-500">
+                  {username}
+                </span>
+              </div>
+              <div className="hidden flex-col gap-1 px-3 py-6 shadow-2xl rounded-md absolute bg-white w-[180px] text-center user-detail">
+                <Link to={"/profile"} className="hover:bg-slate-200 p-2">
+                  Profile
+                </Link>
+                <Link to={"/my-restaurants"} className="hover:bg-slate-200 p-2">
+                  My resturants
+                </Link>
+                <Button className=" w-full  flex-1 font-bold" onClick={logOut}>
+                  Log out
+                </Button>
+              </div>
             </div>
           </div>
         ) : (

@@ -41,7 +41,7 @@ async function stripeWebhookHandler(
   if (event.type === "checkout.session.completed") {
     try {
       const order = await Order.findById(event.data.object.metadata?.OrderId);
-      console.log(event.data.object.metadata,"Metadata")
+      console.log(event.data.object.metadata, "Metadata");
       if (!order) {
         return next(ErrorHandler(400, "Order Not Found"));
       }
@@ -74,7 +74,7 @@ async function createCheckoutSession(
 
     const newOrder = new Order({
       restaurant: restaurant,
-      user: req.userId,
+      username: req.userId,
       status: "Placed",
       deliveryDetails: CheckoutSessionRequest.deliveryDetails,
       cartItems: CheckoutSessionRequest.cartItems,
@@ -92,7 +92,6 @@ async function createCheckoutSession(
       restaurant._id.toString()
     );
 
-
     if (!session.url) {
       return next(ErrorHandler(500, "Error creating Stripe Session"));
     }
@@ -104,7 +103,20 @@ async function createCheckoutSession(
   }
 }
 
-export { createCheckoutSession, stripeWebhookHandler };
+async function getMyOrders(req: Request, res: Response, next: NextFunction) {
+  try {
+    const orders = await Order.find({ username: req.userId })
+      .populate("restaurant")
+      .populate("username");
+
+    res.json(orders);
+  } catch (error) {
+    console.log(error)
+    next(error);
+  }
+}
+
+export { createCheckoutSession, stripeWebhookHandler, getMyOrders };
 
 // --------------------------------------------------------------------
 
