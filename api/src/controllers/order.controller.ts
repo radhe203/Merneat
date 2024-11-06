@@ -111,7 +111,7 @@ async function getMyOrders(req: Request, res: Response, next: NextFunction) {
 
     res.json(orders);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 }

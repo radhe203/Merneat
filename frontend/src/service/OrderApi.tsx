@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Order } from "@/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 type CheckoutSessionRequest = {
   cartItems: {
@@ -74,12 +74,17 @@ export function usegetMyOrders() {
     }
   };
 
+  const intervalRef = useRef(null);
+
   useEffect(() => {
     async function getOrder() {
       const orders = await getMyOrders();
       setOrders(orders);
     }
     getOrder();
+    const interval = setInterval(getOrder, 5000);
+
+    return () => clearInterval(interval);
   }, []);
   return { orders, isLoading };
 }

@@ -1,7 +1,8 @@
 export default async function getRestaurant(baseUrl: string, userId: string) {
   try {
     const res = await fetch(`${baseUrl}/api/restaurants/get/${userId}`, {
-      method: "GEt",
+      method: "GET",
+      credentials:"include"
      
     });
 

@@ -3,6 +3,7 @@ import Restaurant from "../models/restaurant";
 import cloudinary from "cloudinary";
 import ErrorHandler from "../utils/ErrorHandler";
 import mongoose from "mongoose";
+import Order from "../models/order.model";
 
 async function uploadImage(image: Express.Multer.File) {
   try {
@@ -37,12 +38,10 @@ export async function createRestaurants(
     newRestaurent.user = new mongoose.Types.ObjectId(userId);
     await newRestaurent.save();
 
-    res
-      .status(200)
-      .json({
-        restaurent: newRestaurent,
-        message: "Resaurant Added Successfully",
-      });
+    res.status(200).json({
+      restaurent: newRestaurent,
+      message: "Resaurant Added Successfully",
+    });
   } catch (error: any) {
     next(error);
   }
@@ -119,5 +118,60 @@ export async function updateRestaurant(
   } catch (error) {
     next(error);
     console.log(error);
+  }
+}
+
+export async function getRestaurantOrders(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const restaurant = await Restaurant.findOne({ user: req.userId });
+
+    if (!restaurant) {
+      return next(ErrorHandler(400, "restaurant not found"));
+    }
+
+    const orders = await Order.find({ restaurant: restaurant._id })
+      .populate("restaurant")
+      .populate("username");
+
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+}
+
+export async function updateOrderStatus(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const order = await Order.findById(orderId);
+    if (!order) {
+      return next(ErrorHandler(400, "Order not found"));
+    }
+    const restaurant = await Restaurant.findById(order.restaurant);
+
+    console.log(restaurant?.user , req.userId)
+
+    if (restaurant?.user?._id.toString() !== req.userId) {
+      return next(ErrorHandler(401, "Restricted"));
+    }
+
+    order.status = status;
+
+    await order.save();
+
+    res.send(order);
+  } catch (error) {
+    console.log(error);
+    next(error);
   }
 }

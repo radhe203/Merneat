@@ -30,7 +30,7 @@ function OrdersStatus() {
           <div className="grid gap-10 md:grid-cols-2">
             <OrderStatusDetail order={order} />
             <AspectRatio ratio={16/5}>
-            <img src={order.restaurant.imageUrl} className=" h-full w-full object-cover w-full" />
+            <img src={order.restaurant?.imageUrl} className=" h-full w-full object-cover" />
             </AspectRatio>
           </div>
         </div>
