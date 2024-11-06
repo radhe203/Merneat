@@ -41,12 +41,11 @@ async function stripeWebhookHandler(
   if (event.type === "checkout.session.completed") {
     try {
       const order = await Order.findById(event.data.object.metadata?.OrderId);
-      console.log(event.data.object.metadata, "Metadata");
       if (!order) {
         return next(ErrorHandler(400, "Order Not Found"));
       }
 
-      order.totalAmount = event.data.object.amount_total;
+      order.totalAmount = (event.data.object.amount_total as number) / 100 ;
       order.status = "Paid";
 
       await order.save();
@@ -132,11 +131,10 @@ function createLineItems(
     if (!menuitem) {
       throw new Error(`Menuitem not found : ${cartItem.menuItemId}`);
     }
-
     const line_items: Stripe.Checkout.SessionCreateParams.LineItem = {
       price_data: {
         currency: "INR",
-        unit_amount: menuitem.price,
+        unit_amount: menuitem.price * 100,
         product_data: {
           name: menuitem.name,
         },
@@ -163,7 +161,7 @@ async function CreateSession(
           display_name: "Delivery",
           type: "fixed_amount",
           fixed_amount: {
-            amount: deliveryPrice,
+            amount: deliveryPrice * 100,
             currency: "INR",
           },
         },

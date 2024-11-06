@@ -159,7 +159,6 @@ export async function updateOrderStatus(
     }
     const restaurant = await Restaurant.findById(order.restaurant);
 
-    console.log(restaurant?.user , req.userId)
 
     if (restaurant?.user?._id.toString() !== req.userId) {
       return next(ErrorHandler(401, "Restricted"));

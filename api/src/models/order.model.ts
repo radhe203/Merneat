@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
@@ -6,6 +5,7 @@ const orderSchema = new mongoose.Schema(
     restaurant: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant" },
     username: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     deliveryDetails: {
+      username: { type: String, required: true },
       email: { type: String, required: true },
       addressLine1: { type: String, required: true },
       city: { type: String, required: true },
@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema(
         name: { type: String, required: true },
       },
     ],
-    totalAmount: Number,
+    totalAmount: { type: Number },
     status: {
       type: String,
       enum: ["Placed", "Paid", "InProgress", "OutForDelivery", "Delivered"],

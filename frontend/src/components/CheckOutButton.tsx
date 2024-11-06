@@ -9,9 +9,10 @@ import UserProfileForm, {
 type Props = {
   onCheckout: (UserformData: UserformData) => void;
   disabled: boolean;
+  loading:boolean;
 };
 
-function CheckOutButton({ onCheckout, disabled }: Props) {
+function CheckOutButton({ onCheckout, disabled ,loading}: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const { email, userId, username } = useAppSelector((state) => state.User);
@@ -35,7 +36,7 @@ function CheckOutButton({ onCheckout, disabled }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button disabled={disabled} className=" bg-orange-500 flex-1">
+        <Button disabled={disabled || loading} className=" bg-orange-500 flex-1">
           Go to checkout
         </Button>
       </DialogTrigger>
@@ -44,6 +45,7 @@ function CheckOutButton({ onCheckout, disabled }: Props) {
           onSave={onCheckout}
           tittle="Confirm Delivery Details"
           buttonText="Continue to Payment"
+          checkoutLoading={loading}
         />
       </DialogContent>
     </Dialog>

@@ -13,7 +13,6 @@ import {
 import { ORDER_STATUS } from "@/configs/order-status-config";
 import { UseUpdateOrderStatus } from "@/service/RestaurantService";
 import { useState } from "react";
-import { Value } from "@radix-ui/react-select";
 
 type Props = {
   order: Order;
@@ -23,7 +22,6 @@ function OrderItemCard({ order }: Props) {
   const updateMyOrderStatus = UseUpdateOrderStatus();
   const [status, setStatus] = useState<orderStatus>(order.status);
   const handelStatusChange = async (newStatus: string) => {
-    console.log(newStatus);
     const data = await updateMyOrderStatus({
       orderId: order._id,
       status: newStatus,
@@ -64,7 +62,7 @@ function OrderItemCard({ order }: Props) {
 
           <div>
             Total Cost :
-            <span className="ml-2 font-normal">{order.totalAmmount}</span>
+            <span className="ml-2 font-normal">{order.totalAmount}</span>
           </div>
         </CardTitle>
         <Separator />

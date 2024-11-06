@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Order } from "@/types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect,  useState } from "react";
 import { toast } from "sonner";
 type CheckoutSessionRequest = {
   cartItems: {
@@ -53,6 +53,7 @@ export function useCreateCheckoutSession() {
 export function usegetMyOrders() {
   const { baseUrl } = useAppSelector((state) => state.User);
   const [orders, setOrders] = useState<Order[]>();
+  console.log(orders)
   let isLoading = false;
   const getMyOrders = async () => {
     try {
@@ -74,7 +75,6 @@ export function usegetMyOrders() {
     }
   };
 
-  const intervalRef = useRef(null);
 
   useEffect(() => {
     async function getOrder() {

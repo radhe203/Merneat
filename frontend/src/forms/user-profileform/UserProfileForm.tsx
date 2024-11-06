@@ -25,10 +25,16 @@ const FormSchema = z.object({
 export type UserformData = z.infer<typeof FormSchema>;
 type Props = {
   onSave: (UserProfileData: UserformData) => void;
-  tittle?: string,
-  buttonText?: string
+  tittle?: string;
+  buttonText?: string;
+  checkoutLoading?: boolean;
 };
-const UserProfileForm = ({ onSave,tittle="User Profile Form",buttonText="Submit" }: Props) => {
+const UserProfileForm = ({
+  onSave,
+  tittle = "User Profile Form",
+  buttonText = "Submit",
+  checkoutLoading,
+}: Props) => {
   const { addressLine1, city, email, username, country } = useAppSelector(
     (state) => state.User
   );
@@ -136,11 +142,15 @@ const UserProfileForm = ({ onSave,tittle="User Profile Form",buttonText="Submit"
             }}
           />
         </div>
-        {loading ? (
+        {loading || checkoutLoading ? (
           <LoadingButton />
         ) : (
-          <Button type="submit" className=" bg-orange-500 ">
-          {buttonText}
+          <Button
+            type="submit"
+            className=" bg-orange-500"
+            disabled={checkoutLoading}
+          >
+            {buttonText}
           </Button>
         )}
       </form>

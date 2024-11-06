@@ -107,9 +107,11 @@ function SearchDetailPage() {
     });
   }
 
+  //checkout logic
+  const [checkOutLoading, setCheckoutLoaiding] = useState<boolean>(false);
   async function onCheckout(UserformData: UserformData) {
-
-    if(!restaurant){
+    setCheckoutLoaiding(true);
+    if (!restaurant) {
       return;
     }
 
@@ -119,17 +121,19 @@ function SearchDetailPage() {
         name: cartItem.name,
         quantity: cartItem.quantity.toString(),
       })),
-      restaurantId : restaurant?._id,
-      deliveryDetails : {
-        addressLine1 :UserformData.addressLine1,
-        username : UserformData.username as string,
-        email: UserformData.email  as string,
-        city:UserformData.city
-      }
+      restaurantId: restaurant?._id,
+      deliveryDetails: {
+        addressLine1: UserformData.addressLine1,
+        username: UserformData.username as string,
+        email: UserformData.email as string,
+        city: UserformData.city,
+      },
     };
-    const data = await createSession(checkoutData)
-    window.location.href = data.url
+    const data = await createSession(checkoutData);
+    setCheckoutLoaiding(false)
+    window.location.href = data.url;
   }
+  //checkout logic
 
   return (
     <div className=" flex flex-col gap-10">
@@ -162,6 +166,7 @@ function SearchDetailPage() {
               <CheckOutButton
                 disabled={cartItems.length === 0}
                 onCheckout={onCheckout}
+                loading={checkOutLoading}
               />
             </CardFooter>
           </Card>
