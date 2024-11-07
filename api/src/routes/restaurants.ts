@@ -9,6 +9,7 @@ import {
 } from "../controllers/restaurants";
 import multer from "multer";
 import VerifyToken from "../utils/VerifyToken";
+import { validateRestaurant } from "../middleware/validation.middleware";
 
 const router = express.Router();
 
@@ -24,16 +25,18 @@ router.post(
   "/create",
   upload.single("imageFile"),
   VerifyToken,
+  validateRestaurant,
   createRestaurants
 );
 router.put(
   "/update/:userId",
   upload.single("imageFile"),
   VerifyToken,
+  validateRestaurant,
   updateRestaurant
 );
 router.get("/get/:userId", VerifyToken, getRestaurant);
-router.get("/order",VerifyToken,getRestaurantOrders)
-router.patch("/order/:orderId/status",VerifyToken,updateOrderStatus)
+router.get("/order", VerifyToken, getRestaurantOrders);
+router.patch("/order/:orderId/status", VerifyToken, updateOrderStatus);
 
 export default router;
