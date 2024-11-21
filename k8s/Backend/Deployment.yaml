@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: merneat_backend_deployment
+  namespace: merneat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: radhe2003/merneat_backend:01
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: merneat-config
+                  key: PORT
+
+            - name: MONGODB_CONNECTION_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: merneat-config
+                  key: MONGODB_CONNECTION_URI
+
+            - name: JWT_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: merneat-config
+                  key: JWT_SECRET
+
+            - name: CLOUDINARY_CLOUD_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: merneat-config
+                  key: CLOUDINARY_CLOUD_NAME
+
+            - name: CLOUDINARY_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: merneat-config
+                  key: CLOUDINARY_API_KEY
+
+            - name: CLOUDINARY_API_SECRET
+              valueFrom:
+               configMapKeyRef:
+                 name: merneat-config
+                 key: CLOUDINARY_API_SECRET
+
+            - name: STRIPE_PUB_KEY
+              valueFrom:
+               configMapKeyRef:
+                 name: merneat-config
+                 key: STRIPE_PUB_KEY
+
+            - name:  STRIPE_SEC_KEY
+              valueFrom:
+               configMapKeyRef:
+                 name: merneat-config
+                 key: STRIPE_SEC_KEY
+
+            - name: STRIPE_WEBHOOK_SEC
+              valueFrom:
+               configMapKeyRef:
+                 name: merneat-config
+                 key: STRIPE_WEBHOOK_SEC               
+
+                      
