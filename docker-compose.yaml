@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: './Application/frontend'
+      dockerfile: Dockerfile
+    image: radhe2003/merneat_frontend:01
+    ports:
+      - 5000:5000
+    container_name: frontend
+    networks:
+      - merneat_network 
+    environment:
+      - VITE_API_DEV_URL=http://localhost:3000
+      - VITE_API_PROD_URL=https://merneat.onrender.com
+      - VITE_PRODUCTION=0
+    depends_on:
+      - api        
+  api:
+    build:
+      context: './Application/api'
+      dockerfile: Dockerfile
+    image:  radhe2003/merneat_api:01
+    ports:
+      - 3000:3000
+    container_name: api
+    networks:
+      - merneat_network
+    environment:
+      - PORT=3000
+      - MONGODB_CONNECTION_URI=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - JWT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      #cloudinary
+      - CLOUDINARY_CLOUD_NAME=xxxxxxxxxxxxxxxxxxxxxx
+      - CLOUDINARY_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxx
+      - CLOUDINARY_API_SECRET=xxxxxxxxxxxxxxxxxxxxxx
+      #Stripe
+      - STRIPE_PUB_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - STRIPE_SEC_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      - STRIPE_WEBHOOK_SEC=xxxxxxxxxxxxxxxxxxxxxxxx
+      - mongo      
+  mongo:  
+    image: mongo
+    ports:
+      - 27017:27017
+    container_name: mongo_container
+    networks:
+      - merneat_network
+    volumes:
+      - mongodata:/data/db
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf  
+    networks:
+      - merneat_network
+    depends_on:
+      - frontend
+      - api
+      - mongo    
+
+networks:
+  merneat_network:
+volumes:
+  mongodata:
+  
