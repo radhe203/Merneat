@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: merneat_mongodb-deployment
+  name: merneat-mongodb-deployment
   namespace: merneat
 spec:
   replicas: 1

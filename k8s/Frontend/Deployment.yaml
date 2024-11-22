@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: merneat_frontend_deployment
+  name: merneat-frontend-deployment
   namespace: merneat
 spec:
   replicas: 1
