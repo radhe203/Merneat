@@ -1,12 +1,11 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: merneat-ingress
+  namespace: merneat
 spec:
-  ingressClassName: nginx-service
   rules:
-    - host: localhost
-      http:
+    - http:
         paths:
           - path: /api
             pathType: Prefix
@@ -21,4 +20,4 @@ spec:
               service:
                 name: frontend-service
                 port:
-                  number: 5000        
+                  number: 5000
