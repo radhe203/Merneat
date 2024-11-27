@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: radhe2003/merneat_frontend:01
+          image: radhe2003/merneat_frontend:2
           ports:
             - containerPort: 5000
