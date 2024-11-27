@@ -16,7 +16,7 @@ pipeline {
         }
         stage('Checkout from Git') {
             steps {
-                git credentialsId: 'GITHUB', url: 'https://github.com/radhe203/Merneat.git' ,branch: 'devops-merneat'
+                git credentialsId: 'github-cred', url: 'https://github.com/radhe203/Merneat.git' ,branch: 'devops-merneat'
             }
         }
         stage('Sonarqube Analysis') {
@@ -80,13 +80,13 @@ pipeline {
         }
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'GITHUB', url: 'https://github.com/radhe203/Merneat.git' , branch: 'devops-merneat'
+                git credentialsId: 'github-cred', url: 'https://github.com/radhe203/Merneat.git' , branch: 'devops-merneat'
             }
         }
         stage('Update Deployment file') {
             steps {
                 dir('k8s/Backend') {
-                    withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                             git config user.email "radheshyamjio52@gmail.com"
                             git config user.name "radheshyam"
