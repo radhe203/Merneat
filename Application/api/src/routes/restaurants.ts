@@ -1,5 +1,4 @@
 import express from "express";
-// import VerifyToken from "../utils/VerifyToken";
 import {
   createRestaurants,
   getRestaurant,

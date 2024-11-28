@@ -16,11 +16,7 @@ export async function signup(req: Request, res: Response, next: NextFunction) {
     const hassedPassword = bcryptjs.hashSync(password, 10);
     await User.create({ username, email, password: hassedPassword });
 
-    // const newUser = new User({
-    //     username,email,password:hassedPassword,
-    // })
-    // newUser.save()
-
+   
     res.status(200).json({ message: "User created successfully" });
   } catch (error) {
     next(error);
@@ -99,7 +95,7 @@ export async function updateProfile(
   }
 
   try {
-    const UpdatedProfile = await User.findByIdAndUpdate(id, {
+    await User.findByIdAndUpdate(id, {
       $set: {
         ...(username && { username }),
         ...(email && { email }),
