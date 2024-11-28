@@ -1,5 +1,5 @@
 eksctl create cluster --name merneat --region us-east-1 --node-type t2.micro --nodes-min 5 --nodes-max 10
-aws eks update-kubeconfig --region us-west-2 --name merneat
+aws eks update-kubeconfig --region us-east-1 --name merneat
 kubectl get nodes
 
 #sacale node group
@@ -73,3 +73,7 @@ kubectl edit svc stable-kube-prometheus-sta-prometheus   (ClusterIP to LoadBalan
 kubectl edit svc stable-grafana   (ClusterIP to LoadBalancer)
 
 kubectl -n default get secret grafana -o jsonpath="{.data.admin-password}" | base64 -d 
+
+
+
+https://github.com/radhe203/Merneat.git

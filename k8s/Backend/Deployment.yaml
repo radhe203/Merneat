@@ -71,6 +71,12 @@ spec:
               valueFrom:
                configMapKeyRef:
                  name: merneat-config
-                 key: STRIPE_WEBHOOK_SEC               
+                 key: STRIPE_WEBHOOK_SEC
+                 
+            - name: CLIENT_URL
+              valueFrom:
+               configMapKeyRef:
+                 name: merneat-config
+                 key: CLIENT_URL                   
 
                       
