@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: radhe2003/merneat_backend:2
+          image: radhe2003/merneat_backend:5
           ports:
             - containerPort: 3000
           env:
