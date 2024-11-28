@@ -23,7 +23,7 @@ const Home = () => {
     <div className=" flex flex-col gap-12">
       <div className="md:px-32 bg-white shadow-md rounded-lg py-8 flex flex-col gap-5 text-center -mt-16">
         <h1 className=" text-5xl text-orange-600 tracking-tight font-bold">
-          Truck into a takeway today
+          Truck into a takeway today - <small>Testing end to end ci/cd</small>
         </h1>
         <span className=" text-xl">Food is just click away</span>
         <SearchBar
