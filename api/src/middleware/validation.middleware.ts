@@ -40,11 +40,11 @@ export const validateSignup = [
 export const validateLogin = [
   body("password")
     .matches(
-      /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[0-9a-zA-Z@$!%*?&]{8,}$/,
+      /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&''])[A-Za-z\d@$!%*?&'']{6,20}$/,
       "i"
     )
     .withMessage(
-      "Password should be combination of one uppercase , one lower case, one special char, one digit and min 8 , max 20 char long"
+      "Password should be combination of one uppercase , one lower case, one special char, one digit and min 6 , max 20 char long"
     ),
   body("email").isEmail().withMessage("Must be an email"),
   handleValidationErrors,
